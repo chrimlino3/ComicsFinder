@@ -11,7 +11,7 @@ require_once(__DIR__ . '../../../../config.php');
 
 $ts = time();
 $hash = md5($ts . $privatekey . $apikey);
-$call = "http://gateway.marvel.com:80/v1/public/comics?ts=" . $ts . "&apikey=" . $apikey . "&hash=" . $hash;
+$call = "http://gateway.marvel.com:80/v1/public/characters/183/comics?ts=" . $ts . "&apikey=" . $apikey . "&hash=" . $hash;
 
 print "Get: " . $call;
 $ch = curl_init($call);
@@ -36,6 +36,6 @@ if (!$result) {
 
    return [];
 }
-
-print "<pre>result: " . htmlentities(print_r($result, true)) . "\n";
+print '<textarea rows=20 col=100>';
+print "result: " . print_r($result, true) . "\n";
 curl_close($ch);
