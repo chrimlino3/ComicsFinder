@@ -8,6 +8,7 @@
 <?php
 
 require_once(__DIR__ . '../../../../config.php');
+require_once(__DIR__ . '../../../../src/includes/db_conn.php');
 
 $ts = time();
 $hash = md5($ts . $privatekey . $apikey);
@@ -37,4 +38,21 @@ if (!$result) {
    return [];
 }
 print "<pre>result: " . htmlentities(print_r($result, true)) . "\n";
+$data = json_decode($result, true);
+print "data: " . print_r($data);
 curl_close($ch);
+
+$id = $data['data']['results'][0]['id'];
+print "id: " . print_r($id, true);
+
+$name = $data['data']['results'][0]['name'];
+
+print "name: " . print_r($name, true);
+
+$sql = "INSERT INTO character(id, name) VALUES ($id, $name)";
+
+
+// $description = $data['description'];
+// $thumbnail = $data ['thumbnail']['extension'];
+// $comics = $data['comics']['available'];
+
