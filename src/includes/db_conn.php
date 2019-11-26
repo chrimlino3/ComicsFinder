@@ -1,7 +1,7 @@
 <?php
 
 DEFINE ('DB_USER', "Local");
-DEFINE ('DB_PASSWORD', 'root');
+DEFINE ('DB_PASSWORD', 'newrootpassword');
 DEFINE ('DB_HOST', '127.0.0.1');
 DEFINE ('DB_NAME', 'marveldatabase');
 
