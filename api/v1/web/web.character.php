@@ -36,6 +36,5 @@ if (!$result) {
 
    return [];
 }
-
 print "<pre>result: " . htmlentities(print_r($result, true)) . "\n";
 curl_close($ch);
