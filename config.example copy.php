@@ -1,1 +1,4 @@
-key=TEST
+<?php
+
+$apikey="apikey";
+$privatekey="privatekey";
