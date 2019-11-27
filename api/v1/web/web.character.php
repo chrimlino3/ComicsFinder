@@ -44,21 +44,35 @@ curl_close($ch);
 
 foreach($data as $row) {
    for ($i = 0; $i < count($data); $i++) {
-      $id = $data['data']['results'][$i]['id'];
+      $marvelid = $data['data']['results'][$i]['id'];
       $name = $data['data']['results'][$i]['name'];
       $description = $data['data']['results'][$i]['description'];
       $thumbnail = $data['data']['results'][$i]['thumbnail']['path'];
+
+
+
+      $sql = "INSERT INTO characters (marvelid, name, description, thumbnail) 
+              SELECT ('$marvelid', '$name', '$description', '$thumbnail') FROM DUAL
+              WHERE NOT EXISTS (SELECT * FROM characters WHERE marvelid = $marvelid AND name = $name AND description = $description AND thumbnail = $thumbnail)";
+
+      if ($con->query($sql) === TRUE) {
+         echo "New record created successfully";
+      } else {
+         echo "Error: " . $sql . "<br>" . $con->error;
+      }
    }
 }
-$result = mysqli_query($con, "INSERT INTO characters (id, name, description, thumbnail) VALUES ('$id', '$name', '$description', '$thumbnail')");
 
-if($result) {
-   print "New entry";
-} else {
-   if(mysqli_connect_errno() == 'not unique') {
-      echo "Value already exists";
-   }
-}
 
-// $comics = $data['data']['results'][$i]['comics']['items'][0];
+// $result = mysqli_query($con, $sql);
+// print "result: " . $result;
+
+// if($result) {
+//    print "New entry";
+// } else {
+//    if(mysqli_connect_errno() == 'not unique') {
+//       echo "Value already exists";
+//    }
+// }
+
 

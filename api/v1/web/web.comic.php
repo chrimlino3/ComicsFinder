@@ -36,6 +36,8 @@ if (!$result) {
 
    return [];
 }
-
 print "<pre>result: " . htmlentities(print_r($result, true)) . "\n";
+$data = json_decode($result, true);
+print "data: " . print_r($data);
 curl_close($ch);
+
