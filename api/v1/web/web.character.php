@@ -61,11 +61,4 @@ if($result) {
 }
 
 // $comics = $data['data']['results'][$i]['comics']['items'][0];
-      //    echo "New record created";
-      // } else {
-      //    echo "Error: " . $sql . "<br>" . mysqli_error($con);
-      // }
-// $description = $data['description'];
-// $thumbnail = $data ['thumbnail']['extension'];
-// $comics = $data['comics']['available'];
 
