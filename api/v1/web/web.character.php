@@ -42,16 +42,29 @@ $data = json_decode($result, true);
 print "data: " . print_r($data);
 curl_close($ch);
 
-$id = $data['data']['results'][0]['id'];
-print "id: " . print_r($id, true);
+foreach($data as $row) {
+   for ($i = 0; $i < count($data); $i++) {
+      $id = $data['data']['results'][$i]['id'];
+      $name = $data['data']['results'][$i]['name'];
+      $description = $data['data']['results'][$i]['description'];
+      $thumbnail = $data['data']['results'][$i]['thumbnail']['path'];
+   }
+}
+$result = mysqli_query($con, "INSERT INTO characters (id, name, description, thumbnail) VALUES ('$id', '$name', '$description', '$thumbnail')");
 
-$name = $data['data']['results'][0]['name'];
+if($result) {
+   print "New entry";
+} else {
+   if(mysqli_connect_errno() == 'not unique') {
+      echo "Value already exists";
+   }
+}
 
-print "name: " . print_r($name, true);
-
-$sql = "INSERT INTO character(id, name) VALUES ($id, $name)";
-
-
+// $comics = $data['data']['results'][$i]['comics']['items'][0];
+      //    echo "New record created";
+      // } else {
+      //    echo "Error: " . $sql . "<br>" . mysqli_error($con);
+      // }
 // $description = $data['description'];
 // $thumbnail = $data ['thumbnail']['extension'];
 // $comics = $data['comics']['available'];
