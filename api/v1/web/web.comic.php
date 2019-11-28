@@ -8,6 +8,7 @@
 <?php
 
 require_once(__DIR__ . '../../../../config.php');
+require_once(__DIR__ . '../../../../src/includes/db_conn.php');
 
 $ts = time();
 $hash = md5($ts . $privatekey . $apikey);
@@ -41,3 +42,12 @@ $data = json_decode($result, true);
 print "data: " . print_r($data);
 curl_close($ch);
 
+foreach($data as $row) {
+   for ($i = 0; $i < count($data); $i++) 
+      $marvelid = mysqli_real_escape_string($con, $data['data']['results'][$i]['id']);
+      $title = mysqli_real_escape_string($con, $data['data']['results'][$i]['title']);
+      $issue = mysqli_real_escape_string($con, $data['data']['results'][$i]['issueNumber']);
+      $description = mysqli_real_escape_string($con, $data['data']['results'][$i]['description']);
+      $thumbnail = mysqli_real_escape_string($con, $data['data']['results'][$i]['thumbnail']['path']);
+      $characters = $data['data']['results'][$i]['characters']['items'];
+   }
