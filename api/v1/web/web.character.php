@@ -44,35 +44,21 @@ curl_close($ch);
 
 foreach($data as $row) {
    for ($i = 0; $i < count($data); $i++) {
-      $marvelid = $data['data']['results'][$i]['id'];
-      $name = $data['data']['results'][$i]['name'];
-      $description = $data['data']['results'][$i]['description'];
-      $thumbnail = $data['data']['results'][$i]['thumbnail']['path'];
+      $marvelid = mysqli_real_escape_string($con, $data['data']['results'][$i]['id']);
+      $name = mysqli_real_escape_string($con, $data['data']['results'][$i]['name']);
+      $description = mysqli_real_escape_string($con, $data['data']['results'][$i]['description']);
+      $thumbnail = mysqli_real_escape_string($con, $data['data']['results'][$i]['thumbnail']['path']);
 
+      $check = mysqli_query($con, "SELECT * FROM characters WHERE `marvelid` = '$marvelid' and `name` = '$name' and `description` = '$description' and `thumbnail` = '$thumbnail'");
+      $checkrows=mysqli_num_rows($check);
 
-
-      $sql = "INSERT INTO characters (marvelid, name, description, thumbnail) 
-              SELECT ('$marvelid', '$name', '$description', '$thumbnail') FROM DUAL
-              WHERE NOT EXISTS (SELECT * FROM characters WHERE marvelid = $marvelid AND name = $name AND description = $description AND thumbnail = $thumbnail)";
-
-      if ($con->query($sql) === TRUE) {
-         echo "New record created successfully";
+      if($checkrows>0) {
+         print "Entry exists. ";
       } else {
-         echo "Error: " . $sql . "<br>" . $con->error;
+         $sql = "INSERT IGNORE INTO characters (`marvelid`, `name`, `description`, `thumbnail`) VALUES ('$marvelid', '$name', '$description', '$thumbnail')";
+
+         $result = mysqli_query($con, $sql) or die('Error querying database.');
       }
+      print "Entry added. ";
    }
 }
-
-
-// $result = mysqli_query($con, $sql);
-// print "result: " . $result;
-
-// if($result) {
-//    print "New entry";
-// } else {
-//    if(mysqli_connect_errno() == 'not unique') {
-//       echo "Value already exists";
-//    }
-// }
-
-
