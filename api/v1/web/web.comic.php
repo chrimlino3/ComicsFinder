@@ -43,11 +43,28 @@ print "data: " . print_r($data);
 curl_close($ch);
 
 foreach($data as $row) {
-   for ($i = 0; $i < count($data); $i++) 
+   for ($i = 0; $i < count($data); $i++) {
       $marvelid = mysqli_real_escape_string($con, $data['data']['results'][$i]['id']);
       $title = mysqli_real_escape_string($con, $data['data']['results'][$i]['title']);
       $issue = mysqli_real_escape_string($con, $data['data']['results'][$i]['issueNumber']);
       $description = mysqli_real_escape_string($con, $data['data']['results'][$i]['description']);
       $thumbnail = mysqli_real_escape_string($con, $data['data']['results'][$i]['thumbnail']['path']);
-      $characters = $data['data']['results'][$i]['characters']['items'];
+
+      // for($k = 0; $k < count($data); $k++) {
+      //    $characters = $data['data']['results'][$i]['characters']['items'][$k];   
+   // }
+
+      $check = mysqli_query($con, "SELECT * FROM comics WHERE `marvelid` = '$marvelid' and `title` = '$title' and `issue` = '$issue' and `description` = '$description' and `thumbnail` = '$thumbnail'");
+      print "check: " . print_r($check, true) . "\n";
+      $checkrows = mysqli_num_rows($check);
+
+      if($checkrows > 0) {
+         print "Entry exists. " . $marvelid . "\n";
+         
+      } else {
+         $sql = "INSERT INTO comics ( `marvelid`, `title`, `issue`, `description`, `thumbnail`) VALUES ('$marvelid', '$title', '$issue', '$description', '$thumbnail')";
+         $result = mysqli_query($con, $sql) or die(mysqli_error($con));
+         print "Entry added. " . $marvelid . "\n";
+      }
    }
+}
