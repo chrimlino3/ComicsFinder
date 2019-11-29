@@ -2,9 +2,9 @@
 
 ?>
 <html>
-<title>Comics</title>
+<title>Characters by comic</title>
 <body>
-<h1>Comics</h1>
+<h1>Characters by comic</h1>
 <?php
 
 require_once(__DIR__ . '../../../../config.php');
