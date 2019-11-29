@@ -8,6 +8,7 @@
 <?php
 
 require_once(__DIR__ . '../../../../config.php');
+require_once(__DIR__ . '../../../../src/includes/db_conn.php');
 
 $ts = time();
 $hash = md5($ts . $privatekey . $apikey);
@@ -37,4 +38,28 @@ if (!$result) {
    return [];
 }
 print "<pre>result: " . htmlentities(print_r($result, true)) . "\n";
+$data = json_decode($result, true);
+print "data: " . print_r($data);
 curl_close($ch);
+
+foreach($data as $row) {
+   for ($i = 0; $i < count($data); $i++) {
+      $marvelid = mysqli_real_escape_string($con, $data['data']['results'][$i]['id']);
+      $name = mysqli_real_escape_string($con, $data['data']['results'][$i]['name']);
+      $description = mysqli_real_escape_string($con, $data['data']['results'][$i]['description']);
+      $thumbnail = mysqli_real_escape_string($con, $data['data']['results'][$i]['thumbnail']['path']);
+
+      $check = mysqli_query($con, "SELECT * FROM characters WHERE `marvelid` = '$marvelid' and `name` = '$name' and `description` = '$description' and `thumbnail` = '$thumbnail'");
+
+      $checkrows=mysqli_num_rows($check);
+
+      if($checkrows > 0) {
+         print "Entry exists. " . $marvelid . "\n";
+         
+      } else {
+         $sql = "INSERT INTO characters (`marvelid`, `name`, `description`, `thumbnail`) VALUES ('$marvelid', '$name', '$description', '$thumbnail')";
+         $result = mysqli_query($con, $sql) or die(mysqli_error($con));
+         print "Entry added. " . $marvelid . "\n";
+      }
+   }
+}

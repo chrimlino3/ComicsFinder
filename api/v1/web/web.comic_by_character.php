@@ -36,6 +36,8 @@ if (!$result) {
 
    return [];
 }
-print '<textarea rows=20 col=100>';
-print "result: " . print_r($result, true) . "\n";
+
+print "<pre>result: " . htmlentities(print_r($result, true)) . "\n";
+$data = json_decode($result, true);
+print "data: " . print_r($data);
 curl_close($ch);
