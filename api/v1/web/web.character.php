@@ -54,12 +54,12 @@ foreach($data as $row) {
       $checkrows=mysqli_num_rows($check);
 
       if($checkrows > 0) {
-         print "Entry exists. " . $marvelid . "\n";
+         print "Entry exists. " . $marvelid . ' => ' . $name . "\n";
          
       } else {
          $sql = "INSERT INTO characters (`marvelid`, `name`, `description`, `thumbnail`) VALUES ('$marvelid', '$name', '$description', '$thumbnail')";
          $result = mysqli_query($con, $sql) or die(mysqli_error($con));
-         print "Entry added. " . $marvelid . "\n";
+         print "Entry added in database: " . $marvelid . ' => ' . $name . "\n";
       }
    }
 }

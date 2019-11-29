@@ -56,18 +56,16 @@ foreach($data as $row) {
       }
       $serialize_characters = serialize($characters);
 
-      print "characters: " . print_r($serialize_characters, true) . "\n";   
-
       $check = mysqli_query($con, "SELECT * FROM comics WHERE `marvelid` = '$marvelid'");
       $checkrows = mysqli_num_rows($check);
 
       if($checkrows > 0) {
-         print "Entry exists. " . $marvelid . "\n";
+         print "Entry exists. " . $marvelid . ' => ' . $title . "\n";
          
       } else {
          $sql = "INSERT INTO comics ( `marvelid`, `title`, `issue`, `description`, `thumbnail`, `characters`) VALUES ('$marvelid', '$title', '$issue', '$description', '$thumbnail', '$serialize_characters')";
          $result = mysqli_query($con, $sql) or die(mysqli_error($con));
-         print "Entry added. " . $marvelid . "\n";
+         print "Entry added in database: " . $marvelid . " => " . $title . "\n";
       }
    }
 }
