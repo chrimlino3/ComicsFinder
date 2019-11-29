@@ -49,7 +49,7 @@ foreach($data as $row) {
       $description = mysqli_real_escape_string($con, $data['data']['results'][$i]['description']);
       $thumbnail = mysqli_real_escape_string($con, $data['data']['results'][$i]['thumbnail']['path']);
 
-      $check = mysqli_query($con, "SELECT * FROM characters WHERE `marvelid` = '$marvelid' and `name` = '$name' and `description` = '$description' and `thumbnail` = '$thumbnail'");
+      $check = mysqli_query($con, "SELECT * FROM characters WHERE `marvelid` = '$marvelid'");
 
       $checkrows=mysqli_num_rows($check);
 

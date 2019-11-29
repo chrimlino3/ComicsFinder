@@ -50,19 +50,22 @@ foreach($data as $row) {
       $description = mysqli_real_escape_string($con, $data['data']['results'][$i]['description']);
       $thumbnail = mysqli_real_escape_string($con, $data['data']['results'][$i]['thumbnail']['path']);
 
-      // for($k = 0; $k < count($data); $k++) {
-      //    $characters = $data['data']['results'][$i]['characters']['items'][$k];   
-   // }
+      $characters = [];
+      for($k = 0; $k < count($data['data']['results'][$i]['characters']['items']); $k++) {
+         $characters[] = mysqli_real_escape_string($con, $data['data']['results'][$i]['characters']['items'][$k]['name']);
+      }
+      $serialize_characters = serialize($characters);
 
-      $check = mysqli_query($con, "SELECT * FROM comics WHERE `marvelid` = '$marvelid' and `title` = '$title' and `issue` = '$issue' and `description` = '$description' and `thumbnail` = '$thumbnail'");
-      print "check: " . print_r($check, true) . "\n";
+      print "characters: " . print_r($serialize_characters, true) . "\n";   
+
+      $check = mysqli_query($con, "SELECT * FROM comics WHERE `marvelid` = '$marvelid'");
       $checkrows = mysqli_num_rows($check);
 
       if($checkrows > 0) {
          print "Entry exists. " . $marvelid . "\n";
          
       } else {
-         $sql = "INSERT INTO comics ( `marvelid`, `title`, `issue`, `description`, `thumbnail`) VALUES ('$marvelid', '$title', '$issue', '$description', '$thumbnail')";
+         $sql = "INSERT INTO comics ( `marvelid`, `title`, `issue`, `description`, `thumbnail`, `characters`) VALUES ('$marvelid', '$title', '$issue', '$description', '$thumbnail', '$serialize_characters')";
          $result = mysqli_query($con, $sql) or die(mysqli_error($con));
          print "Entry added. " . $marvelid . "\n";
       }
