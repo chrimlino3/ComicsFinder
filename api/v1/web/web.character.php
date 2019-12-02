@@ -32,10 +32,10 @@ curl_setopt($ch, CURLOPT_DNS_CACHE_TIMEOUT, 2);
 
 $result = curl_exec($ch);
 if (!$result) {
-   $curlError = curl_error($ch);
-   print "curl_exec failed: $curlError";
+    $curlError = curl_error($ch);
+    print "curl_exec failed: $curlError";
 
-   return [];
+    return [];
 }
 print "<pre>result: " . htmlentities(print_r($result, true)) . "\n";
 $results = json_decode($result, true);
@@ -43,23 +43,24 @@ print "data: " . print_r($results);
 curl_close($ch);
 
 foreach($results['data']['results'] as $row) {
-   print "row: " . print_r($row, true) . "\n";
-         $marvelid = mysqli_real_escape_string($con, $row['id']);
-         $name = mysqli_real_escape_string($con, $row['name']);
-         $description = mysqli_real_escape_string($con, $row['description']);
-         $thumbnail = mysqli_real_escape_string($con, $row['thumbnail']['path']);
-         $extension = mysqli_real_escape_string($con, $row['thumbnail']['extension']);
+    print "row: " . print_r($row, true) . "\n";
+    $marvelid = mysqli_real_escape_string($con, $row['id']);
+    $name = mysqli_real_escape_string($con, $row['name']);
+    $description = mysqli_real_escape_string($con, $row['description']);
+    $thumbnail = mysqli_real_escape_string($con, $row['thumbnail']['path']);
+    $extension = mysqli_real_escape_string($con, $row['thumbnail']['extension']);
 
-         $check = mysqli_query($con, "SELECT * FROM characters WHERE `marvelid` = '$marvelid'");
 
-         $checkrows=mysqli_num_rows($check);
+    $check = mysqli_query($con, "SELECT * FROM characters WHERE `marvelid` = '$marvelid'");
 
-         if($checkrows > 0) {
-            print "Entry exists. " . $marvelid . ' => ' . $name . "\n";
-            
-         } else {
-            $sql = "INSERT INTO characters (`marvelid`, `name`, `description`, `thumbnail`, `extension`) VALUES ('$marvelid', '$name', '$description', '$thumbnail', '$extension')";
-            $result = mysqli_query($con, $sql) or die(mysqli_error($con));
-            print "Entry added in database: " . $marvelid . ' => ' . $name . "\n";
-      }
-   }
+    $checkrows=mysqli_num_rows($check);
+
+    if($checkrows > 0) {
+        print "Entry exists. " . $marvelid . ' => ' . $name . "\n";
+      
+    } else {
+         $sql = "INSERT INTO characters (`marvelid`, `name`, `description`, `thumbnail`, `extension`) VALUES ('$marvelid', '$name', '$description', '$thumbnail', '$extension')";
+         $result = mysqli_query($con, $sql) or die(mysqli_error($con));
+         print "Entry added in database: " . $marvelid . ' => ' . $name . "\n";
+    }
+}
