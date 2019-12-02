@@ -42,17 +42,16 @@ $data = json_decode($result, true);
 print "data: " . print_r($data);
 curl_close($ch);
 
-foreach($data as $row) {
-   for ($i = 0; $i < count($data); $i++) {
-      $marvelid = mysqli_real_escape_string($con, $data['data']['results'][$i]['id']);
-      $title = mysqli_real_escape_string($con, $data['data']['results'][$i]['title']);
-      $issue = mysqli_real_escape_string($con, $data['data']['results'][$i]['issueNumber']);
-      $description = mysqli_real_escape_string($con, $data['data']['results'][$i]['description']);
-      $thumbnail = mysqli_real_escape_string($con, $data['data']['results'][$i]['thumbnail']['path']);
+foreach($data['data']['results'] as $row) {
+      $marvelid = mysqli_real_escape_string($con, $row['id']);
+      $title = mysqli_real_escape_string($con, $row['title']);
+      $issue = mysqli_real_escape_string($con, $row['issueNumber']);
+      $description = mysqli_real_escape_string($con, $row['description']);
+      $thumbnail = mysqli_real_escape_string($con, $row['thumbnail']['path']);
 
       $characters = [];
-      for($k = 0; $k < count($data['data']['results'][$i]['characters']['items']); $k++) {
-         $characters[] = mysqli_real_escape_string($con, $data['data']['results'][$i]['characters']['items'][$k]['name']);
+      for($k = 0; $k < count($row['characters']['items']); $k++) {
+         $characters[] = mysqli_real_escape_string($con, $row['characters']['items'][$k]['name']);
       }
       $serialize_characters = serialize($characters);
 
@@ -68,4 +67,3 @@ foreach($data as $row) {
          print "Entry added in database: " . $marvelid . " => " . $title . "\n";
       }
    }
-}

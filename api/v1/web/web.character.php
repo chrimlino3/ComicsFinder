@@ -38,28 +38,27 @@ if (!$result) {
    return [];
 }
 print "<pre>result: " . htmlentities(print_r($result, true)) . "\n";
-$data = json_decode($result, true);
-print "data: " . print_r($data);
+$results = json_decode($result, true);
+print "data: " . print_r($results);
 curl_close($ch);
 
-foreach($data as $row) {
-   for ($i = 0; $i < count($data); $i++) {
-      $marvelid = mysqli_real_escape_string($con, $data['data']['results'][$i]['id']);
-      $name = mysqli_real_escape_string($con, $data['data']['results'][$i]['name']);
-      $description = mysqli_real_escape_string($con, $data['data']['results'][$i]['description']);
-      $thumbnail = mysqli_real_escape_string($con, $data['data']['results'][$i]['thumbnail']['path']);
+foreach($results['data']['results'] as $row) {
+   print "row: " . print_r($row, true) . "\n";
+         $marvelid = mysqli_real_escape_string($con, $row['id']);
+         $name = mysqli_real_escape_string($con, $row['name']);
+         $description = mysqli_real_escape_string($con, $row['description']);
+         $thumbnail = mysqli_real_escape_string($con, $row['thumbnail']['path']);
 
-      $check = mysqli_query($con, "SELECT * FROM characters WHERE `marvelid` = '$marvelid'");
+         $check = mysqli_query($con, "SELECT * FROM characters WHERE `marvelid` = '$marvelid'");
 
-      $checkrows=mysqli_num_rows($check);
+         $checkrows=mysqli_num_rows($check);
 
-      if($checkrows > 0) {
-         print "Entry exists. " . $marvelid . ' => ' . $name . "\n";
-         
-      } else {
-         $sql = "INSERT INTO characters (`marvelid`, `name`, `description`, `thumbnail`) VALUES ('$marvelid', '$name', '$description', '$thumbnail')";
-         $result = mysqli_query($con, $sql) or die(mysqli_error($con));
-         print "Entry added in database: " . $marvelid . ' => ' . $name . "\n";
+         if($checkrows > 0) {
+            print "Entry exists. " . $marvelid . ' => ' . $name . "\n";
+            
+         } else {
+            $sql = "INSERT INTO characters (`marvelid`, `name`, `description`, `thumbnail`) VALUES ('$marvelid', '$name', '$description', '$thumbnail')";
+            $result = mysqli_query($con, $sql) or die(mysqli_error($con));
+            print "Entry added in database: " . $marvelid . ' => ' . $name . "\n";
       }
    }
-}
