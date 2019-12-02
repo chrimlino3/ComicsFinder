@@ -1,3 +1,42 @@
+<style>
+
+.button {
+    background-color: #FFFF00;
+    display: inline;
+    border: solid 1px;
+    color: black;
+    padding: 5px 5px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 15px;
+    
+}
+
+input {
+    padding: 5px 5px;
+}
+
+.searchbar {
+    display: flex;
+    justify-content: center;
+
+}
+
+p {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 0px;
+}
+
+.results {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 0px;
+}
+
+</style>
+
 <?php
 
 require_once(__DIR__ . '../../../src/includes/db_conn.php');
@@ -7,11 +46,17 @@ $input = !empty($_GET['c']) ? $_GET['c'] : '';
 // $url = 'http://gateway.marvel.com:80/v1/public/characters?' . $input;
 
 ?>
-<form method="GET">
-<p>Get superhero details<p>
-    <input name="c" value="Agent Zero" type="text" size="25"/>
-    <input type="submit" name= "submit" value="Search"/>
+<div class="container h-100">
+    <form method="GET">
+<div class="d-flex justify-content-center h-100">
+    <p>Get superhero details<p>
+<div class="searchbar">
+    <input class="search_input" type="text" name="c" placeholder="3-D Man" />
+    <input class="button" type="submit" name= "submit" value="Search"/>
+    </div>
+    </div>
 </form>
+</div>
 <?php
 
 $min_length = 3;
@@ -25,8 +70,10 @@ if(strlen($input) >= $min_length) {
 
  if (mysqli_num_rows($raw_results) > 0){
     while($results = mysqli_fetch_array($raw_results)) {
-        print "<p><h3>" .$results['name']. "</h3></p>";
-        print "<p>" .$results['description']. "</p>";
+        '<div class="results">' .
+            print "<p><h3>" .$results['name']. "</h3></p>";
+            print "<p>" .$results['description']. "</p>" .
+        '</div>';
         echo '<img height="300" width="300" src="' .  $results['thumbnail'] . '.' . $results['extension'] . '"/>';
     }
 }
