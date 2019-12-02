@@ -38,8 +38,8 @@ input {
 
 <?php
 
-require_once(__DIR__ . '../../../src/includes/db_conn.php');
-require_once(__DIR__ . '../../../config.php');
+require_once(__DIR__ . '/../src/includes/db_conn.php');
+require_once(__DIR__ . '/../config.php');
 
 $input = !empty($_GET['c']) ? $_GET['c'] : '';
 
@@ -47,7 +47,7 @@ $input = !empty($_GET['c']) ? $_GET['c'] : '';
 <div class="container h-100">
     <form method="GET">
     <div class="d-flex justify-content-center h-100">
-        <p>Get superhero details<p>
+        <p>Broswe your favorite superhero stories<p>
         <div class="searchbar">
             <input class="search_input" type="text" name="c" placeholder="3-D Man" />
             <input class="button" type="submit" name= "submit" value="Search"/>
@@ -64,14 +64,15 @@ if(strlen($input) >= $min_length) {
 
  $input = mysqli_real_escape_string($con, $input);
 
- $raw_results = mysqli_query($con, "SELECT `name`, `description`, `thumbnail`, `extension` FROM characters Where (`name` LIKE '%".$input."%')") or die(mysqli_error($con));
+ $raw_results = mysqli_query($con, "SELECT `title`, `issue`, `description`, `thumbnail`, `characters`, `thumbnail`, `extension` FROM comics Where (`characters` LIKE '%".$input."%')") or die(mysqli_error($con));
 
  if (mysqli_num_rows($raw_results) > 0){
     while($results = mysqli_fetch_array($raw_results)) {
         '<div class="results">' .
-            print "<p><h3>" .$results['name']. "</h3></p>";
-            print "<p>" .$results['description']. "</p>" .
+            print "<p><h3>" .$results['title']. "</h3></p>";
+            print "<p>" .$results['description']. "</p>";
             print '<div class="image"><img height="300" width="300" src="' .  $results['thumbnail'] . '.' . $results['extension'] . '"/></div>';
+            print "<p>" .$results['characters']. "</p>";
         '</div>';
     }
 }

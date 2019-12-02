@@ -7,8 +7,8 @@
 <h1>Comics</h1>
 <?php
 
-require_once(__DIR__ . '../../../../config.php');
-require_once(__DIR__ . '../../../../src/includes/db_conn.php');
+require_once(__DIR__ . '/../config.php');
+require_once(__DIR__ . '/../src/includes/db_conn.php');
 
 $ts = time();
 $hash = md5($ts . $privatekey . $apikey);
@@ -48,12 +48,12 @@ foreach($data['data']['results'] as $row) {
       $issue = mysqli_real_escape_string($con, $row['issueNumber']);
       $description = mysqli_real_escape_string($con, $row['description']);
       $thumbnail = mysqli_real_escape_string($con, $row['thumbnail']['path']);
+      $extension = mysqli_real_escape_string($con, $row['thumbnail']['extension']);
 
-      $characters = [];
-      for($k = 0; $k < count($row['characters']['items']); $k++) {
-         $characters[] = mysqli_real_escape_string($con, $row['characters']['items'][$k]['name']);
+      foreach($row['characters']['items'] as $value) {
+         $characters = mysqli_real_escape_string($con, $value['name']);
+         print "characters: " . $characters . "\n";
       }
-      $serialize_characters = serialize($characters);
 
       $check = mysqli_query($con, "SELECT * FROM comics WHERE `marvelid` = '$marvelid'");
       $checkrows = mysqli_num_rows($check);
@@ -62,7 +62,7 @@ foreach($data['data']['results'] as $row) {
          print "Entry exists. " . $marvelid . ' => ' . $title . "\n";
          
       } else {
-         $sql = "INSERT INTO comics ( `marvelid`, `title`, `issue`, `description`, `thumbnail`, `characters`) VALUES ('$marvelid', '$title', '$issue', '$description', '$thumbnail', '$serialize_characters')";
+         $sql = "INSERT INTO comics ( `marvelid`, `title`, `issue`, `description`, `thumbnail`, `characters`, `extension`) VALUES ('$marvelid', '$title', '$issue', '$description', '$thumbnail', '$characters', '$extension')";
          $result = mysqli_query($con, $sql) or die(mysqli_error($con));
          print "Entry added in database: " . $marvelid . " => " . $title . "\n";
       }
