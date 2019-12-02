@@ -23,17 +23,16 @@ input {
 
 }
 
-p {
+.results, h3, p {
     display: flex;
     justify-content: center;
     margin-bottom: 0px;
 }
 
-.results {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 0px;
+.image {
+    padding-left: 30%;
 }
+
 
 </style>
 
@@ -43,19 +42,18 @@ require_once(__DIR__ . '../../../src/includes/db_conn.php');
 require_once(__DIR__ . '../../../config.php');
 
 $input = !empty($_GET['c']) ? $_GET['c'] : '';
-// $url = 'http://gateway.marvel.com:80/v1/public/characters?' . $input;
 
 ?>
 <div class="container h-100">
     <form method="GET">
-<div class="d-flex justify-content-center h-100">
-    <p>Get superhero details<p>
-<div class="searchbar">
-    <input class="search_input" type="text" name="c" placeholder="3-D Man" />
-    <input class="button" type="submit" name= "submit" value="Search"/>
+    <div class="d-flex justify-content-center h-100">
+        <p>Get superhero details<p>
+        <div class="searchbar">
+            <input class="search_input" type="text" name="c" placeholder="3-D Man" />
+            <input class="button" type="submit" name= "submit" value="Search"/>
+        </div>
     </div>
-    </div>
-</form>
+    </form>
 </div>
 <?php
 
@@ -73,8 +71,8 @@ if(strlen($input) >= $min_length) {
         '<div class="results">' .
             print "<p><h3>" .$results['name']. "</h3></p>";
             print "<p>" .$results['description']. "</p>" .
+            print '<div class="image"><img height="300" width="300" src="' .  $results['thumbnail'] . '.' . $results['extension'] . '"/></div>';
         '</div>';
-        echo '<img height="300" width="300" src="' .  $results['thumbnail'] . '.' . $results['extension'] . '"/>';
     }
 }
 else {
