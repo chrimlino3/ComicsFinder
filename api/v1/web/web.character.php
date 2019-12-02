@@ -48,6 +48,7 @@ foreach($results['data']['results'] as $row) {
          $name = mysqli_real_escape_string($con, $row['name']);
          $description = mysqli_real_escape_string($con, $row['description']);
          $thumbnail = mysqli_real_escape_string($con, $row['thumbnail']['path']);
+         $extension = mysqli_real_escape_string($con, $row['thumbnail']['extension']);
 
          $check = mysqli_query($con, "SELECT * FROM characters WHERE `marvelid` = '$marvelid'");
 
@@ -57,7 +58,7 @@ foreach($results['data']['results'] as $row) {
             print "Entry exists. " . $marvelid . ' => ' . $name . "\n";
             
          } else {
-            $sql = "INSERT INTO characters (`marvelid`, `name`, `description`, `thumbnail`) VALUES ('$marvelid', '$name', '$description', '$thumbnail')";
+            $sql = "INSERT INTO characters (`marvelid`, `name`, `description`, `thumbnail`, `extension`) VALUES ('$marvelid', '$name', '$description', '$thumbnail', '$extension')";
             $result = mysqli_query($con, $sql) or die(mysqli_error($con));
             print "Entry added in database: " . $marvelid . ' => ' . $name . "\n";
       }
