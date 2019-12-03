@@ -1,7 +1,17 @@
 <style>
 
+.container {
+    border: solid;
+    border-color: red;
+    height: 400px;
+    background-image: url('https://i.pinimg.com/originals/be/b7/7b/beb77b9dbd5a17d16ddf97d7612bf3eb.jpg');
+    background-size: cover;
+    background-position: center;
+    opacity: 90%;
+}
+
 .button {
-    background-color: #FFFF00;
+    background-color: #ED1D24;
     display: inline;
     border: solid 1px;
     color: black;
@@ -10,6 +20,7 @@
     text-decoration: none;
     display: inline-block;
     font-size: 15px;
+    border-radius: 5px;
     
 }
 
@@ -20,6 +31,7 @@ input {
 .searchbar {
     display: flex;
     justify-content: center;
+    padding-top: 40px;
 
 }
 
@@ -27,12 +39,19 @@ input {
     display: flex;
     justify-content: center;
     margin-bottom: 0px;
+    font-family: Impact;
 }
 
 .image {
     padding-left: 30%;
 }
 
+h2 {
+    display: flex;
+    justify-content: center;
+    color: white;
+    font-family: Impact;
+}
 
 </style>
 
@@ -47,7 +66,8 @@ $input = !empty($_GET['c']) ? $_GET['c'] : '';
 <div class="container h-100">
     <form method="GET">
     <div class="d-flex justify-content-center h-100">
-        <p>Broswe your favorite superhero stories<p>
+        <h2>Broswe your favorite superhero stories</h2>
+        <p>Hulk, X-Men, Wolverine, Wasp (Ultimate), Spider-Man</p>
         <div class="searchbar">
             <input class="search_input" type="text" name="c" placeholder="3-D Man" />
             <input class="button" type="submit" name= "submit" value="Search"/>
