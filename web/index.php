@@ -101,5 +101,7 @@ else {
 }
 
 } else {
-    print "Minimum length is " . $min_length;
+    if (!empty($input)) {
+        print "Minimum length is " . $min_length;
+    }
 }
