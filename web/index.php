@@ -35,21 +35,40 @@ input {
 
 }
 
-.results, h3, p {
+.results {
     display: flex;
     justify-content: center;
     margin-bottom: 0px;
     font-family: Impact;
+    border: solid;
+
 }
 
-.image {
-    padding-left: 30%;
+h3 {
+    display: flex;
+    justify-content: left;
+    margin-bottom: 0px;
+    font-family: Impact; 
 }
+
+/* p {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 0px;
+    font-family: Impact normal;
+} */
 
 h2 {
     display: flex;
     justify-content: center;
     color: white;
+    font-family: Impact;
+}
+
+h5 {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 0px;
     font-family: Impact;
 }
 
@@ -67,7 +86,7 @@ $input = !empty($_GET['c']) ? $_GET['c'] : '';
     <form method="GET">
     <div class="d-flex justify-content-center h-100">
         <h2>Broswe your favorite superhero stories</h2>
-        <p>Hulk, X-Men, Wolverine, Wasp (Ultimate), Spider-Man</p>
+        <h5>Hulk, X-Men, Wolverine, Wasp (Ultimate), Spider-Man</h5>
         <div class="searchbar">
             <input class="search_input" type="text" name="c" placeholder="3-D Man" />
             <input class="button" type="submit" name= "submit" value="Search"/>
@@ -89,10 +108,10 @@ if(strlen($input) >= $min_length) {
  if (mysqli_num_rows($raw_results) > 0){
     while($results = mysqli_fetch_array($raw_results)) {
         '<div class="results">' .
+            print "<p>__________________________________________</p>";
             print "<p><h3>" .$results['title']. "</h3></p>";
-            print "<p>" .$results['description']. "</p>";
+            print "<p class='col-md-8'>" .$results['description']. "</p>";
             print '<div class="image"><img height="300" width="300" src="' .  $results['thumbnail'] . '.' . $results['extension'] . '"/></div>';
-            print "<p>" .$results['characters']. "</p>";
         '</div>';
     }
 }
