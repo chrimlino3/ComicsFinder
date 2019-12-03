@@ -80,6 +80,8 @@ require_once(__DIR__ . '/../src/includes/db_conn.php');
 require_once(__DIR__ . '/../config.php');
 
 $input = !empty($_GET['c']) ? $_GET['c'] : '';
+$title = !empty($_GET['title']) ? $_GET['title'] : '';
+$body = !empty($_GET['body']) ? $_GET['body'] : '';
 
 ?>
 <div class="container h-100">
@@ -102,17 +104,28 @@ if(strlen($input) >= $min_length) {
     $input = htmlspecialchars($input);
 
  $input = mysqli_real_escape_string($con, $input);
+ $title = mysqli_real_escape_string($con, $title);
+ $body = mysqli_real_escape_string($con, $body);
 
  $raw_results = mysqli_query($con, "SELECT `title`, `issue`, `description`, `thumbnail`, `characters`, `thumbnail`, `extension` FROM comics Where (`characters` LIKE '%".$input."%')") or die(mysqli_error($con));
+
+ $reviews = "INSERT INTO reviews (`title`,`body`) VALUES ('$title','$body')";
+         $result = mysqli_query($con, $reviews) or die(mysqli_error($con));
+         print "Entry added in database: " . $title . " => " . $body . "\n";
 
  if (mysqli_num_rows($raw_results) > 0){
     while($results = mysqli_fetch_array($raw_results)) {
         '<div class="results">' .
-            print "<p>__________________________________________</p>";
-            print "<p><h3>" .$results['title']. "</h3></p>";
-            print "<p class='col-md-8'>" .$results['description']. "</p>";
-            print '<div class="image"><img height="300" width="300" src="' .  $results['thumbnail'] . '.' . $results['extension'] . '"/></div>';
+        print "<p>__________________________________________</p>";
+        print_r("<p><h3>" .$results['title']. "</h3></p>");
+        print_r("<p class='col-md-8'>" .$results['description']. "</p>");
+        '<div class="postreview ml-8">' .
+            print '<input class="form-control" type="text" name="title" placeholder="Best comic ever"/>' .
+            print '<textarea class="form-control rounded-0" rows="8" type="text" name="body" placeholder="Best comic ever"></textarea>' .
+            print '<input class="button" type="submit" name="submit" value="Write a review"/>' .
         '</div>';
+            print '<div class="image"><img height="300" width="300" src="' .  $results['thumbnail'] . '.' . $results['extension'] . '"/></div>';
+            '</div>';
     }
 }
 else {
@@ -124,3 +137,8 @@ else {
         print "Minimum length is " . $min_length;
     }
 }
+
+?>
+<div>
+<input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm">>
+</div>
