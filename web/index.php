@@ -4,7 +4,7 @@
     border: solid;
     border-color: red;
     height: 400px;
-    background-image: url('https://i.pinimg.com/originals/be/b7/7b/beb77b9dbd5a17d16ddf97d7612bf3eb.jpg');
+    background-image: url('https://images.unsplash.com/photo-1514329926535-7f6dbfbfb114?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
     background-size: cover;
     background-position: center;
     opacity: 90%;
@@ -131,8 +131,10 @@ if (mysqli_num_rows($raw_results) > 0){
 
 $title = !empty($_GET['title']) ? $_GET['title'] : '';
 print "title: " . print_r($title, true);
+
 $body = !empty($_GET['body']) ? $_GET['body'] : ''; 
 print "body: " . print_r($body, true);
+
 $title = mysqli_real_escape_string($con, $title);
 $body = mysqli_real_escape_string($con, $body);
 
