@@ -1,89 +1,14 @@
-<style>
-
-.container {
-    border: solid;
-    border-color: red;
-    height: 400px;
-    background-image: url('https://images.unsplash.com/photo-1514329926535-7f6dbfbfb114?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
-    background-size: cover;
-    background-position: center;
-    opacity: 90%;
-}
-
-.button {
-    background-color: #ED1D24;
-    display: inline;
-    border: solid 1px;
-    color: black;
-    padding: 5px 5px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 15px;
-    border-radius: 5px;
-}
-
-.button:hover {
-  background-color: #ED1D24;
-  color: white;
-}
-
-input {
-    padding: 5px 5px;
-}
-
-.searchbar {
-    display: flex;
-    justify-content: center;
-    padding-top: 40px;
-
-}
-
-.results {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 0px;
-    font-family: Impact;
-    border: solid;
-
-}
-
-h3 {
-    display: flex;
-    justify-content: left;
-    margin-bottom: 0px;
-    font-family: Impact; 
-}
-
-/* p {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 0px;
-    font-family: Impact normal;
-} */
-
-h2 {
-    display: flex;
-    justify-content: center;
-    color: white;
-    font-family: Impact;
-}
-
-h5 {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 0px;
-    font-family: Impact;
-}
-
-</style>
+<!DOCTYPE HTML>
 <html>
+<head>
+<meta charset="utf-8">
+</head>
 <body>
-
 <?php
 
 require_once(__DIR__ . '/../src/includes/db_conn.php');
 require_once(__DIR__ . '/../config.php');
+require_once(__DIR__ . '/../CSS/style.php');
 
 $min_length = 3;
 $input = !empty($_GET['c']) ? $_GET['c'] : '';
@@ -115,7 +40,7 @@ if (mysqli_num_rows($raw_results) > 0){
     while($results = mysqli_fetch_array($raw_results)) {
         '<div class="results">' .
         print "<p>__________________________________________</p>";
-        print "<p><h3>" .$results['title']. "</h3></p>)";
+        print "<p><h3>" .$results['title']. "</h3></p>";
         print "<p class='col-md-8'>" .$results['description']. "</p>";
         print '<div class="image"><img height="300" width="300" src="' .  $results['thumbnail'] . '.' . $results['extension'] . '"/></div>';
         '</div>';
@@ -150,7 +75,7 @@ $reviews = mysqli_query($con, "INSERT INTO reviews (`title`,`body`) VALUES ('$ti
         print '</form>' .
     '</div>';
 
-while($reviews = mysqli_fetch_array($reviews)) {
+while($reviews = mysqli_fetch_array($con, $reviews)) {
     print "<p>__________________________________________</p>";
     print "<p><h3>" .$reviews['title']. "</h3></p>)";
     print "<p class='col-md-8'>" .$reviews['body']. "</p>";
