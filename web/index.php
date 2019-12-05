@@ -32,13 +32,7 @@ $body = mysqli_real_escape_string($con, $body);
     </form>
 </div>
 <?php
-
-   
-    $sql = "INSERT INTO comics (`review_title`,`review_body`) VALUES ('$title','$body')";
-    if (!mysqli_query($con, $sql)) {
-        print "Error: " . mysqli_error($con);
-    }
-
+ 
     if(strlen($input) >= $min_length) {
         $input = htmlspecialchars($input);
         $raw_results = mysqli_query($con, "SELECT `title`, `issue`, `description`, `thumbnail`, `characters`, `thumbnail`, `extension` 
@@ -60,6 +54,13 @@ $body = mysqli_real_escape_string($con, $body);
                     '<input type = "reset" value="Cancel">' .
                     '</form>' .
             '</div>';
+
+            $sql = "UPDATE comics SET `review_title` = '$title' and `review_body` = '$body'";
+
+            // $sql = "INSERT INTO comics (`review_title`,`review_body`) VALUES ('$title','$body')";
+            if (!mysqli_query($con, $sql)) {
+                print "Error: " . mysqli_error($con);
+            }
             
                 if(isset($_POST['submit'])) {
                     $sql1 = mysqli_query($con, "SELECT `review_title`, `review_body` FROM comics");
