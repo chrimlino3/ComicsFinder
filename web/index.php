@@ -1,9 +1,3 @@
-<!DOCTYPE HTML>
-<html>
-<head>
-<meta charset="utf-8">
-</head>
-<body>
 <?php
 
 require_once(__DIR__ . '/../src/includes/db_conn.php');
@@ -13,10 +7,6 @@ require_once(__DIR__ . '/../CSS/style.php');
 $min_length = 3;
 $input = !empty($_GET['c']) ? $_GET['c'] : '';
 $input = mysqli_real_escape_string($con, $input);
-$title = !empty($_POST['title']) ? $_POST['title'] : '';
-$body = !empty($_POST['body']) ? $_POST['body'] : '';
-$title = mysqli_real_escape_string($con, $title);
-$body = mysqli_real_escape_string($con, $body);
 
 ?>
 <div class="container h-100">
@@ -32,7 +22,6 @@ $body = mysqli_real_escape_string($con, $body);
     </form>
 </div>
 <?php
- 
     if(strlen($input) >= $min_length) {
         $input = htmlspecialchars($input);
         $raw_results = mysqli_query($con, "SELECT `title`, `issue`, `description`, `thumbnail`, `characters`, `thumbnail`, `extension` 
@@ -45,31 +34,7 @@ $body = mysqli_real_escape_string($con, $body);
                   "<p class='col-md-8'>" .$results['description']. "</p>".
                   '<div class="image"><img height="300" width="300" src="' .  $results['thumbnail'] . '.' . $results['extension'] . '"/></div>'.
             '</div>';
-
-            '<div class="postreview ml-8">' .
-                print '<form method="POST">' .
-                    '<input class="form-control" type="text" name="title" placeholder="Title"/>' . "\n<br />" .
-                    '<input class="form-control" type="text" name="body" placeholder="Comment"/>' . "\n<br />" .
-                    '<input class="button" type="submit" name="submit" value="Write a review"/>' .
-                    '<input type = "reset" value="Cancel">' .
-                    '</form>' .
-            '</div>';
-
-            $sql = "UPDATE comics SET `review_title` = '$title' and `review_body` = '$body'";
-
-            // $sql = "INSERT INTO comics (`review_title`,`review_body`) VALUES ('$title','$body')";
-            if (!mysqli_query($con, $sql)) {
-                print "Error: " . mysqli_error($con);
-            }
-            
-                if(isset($_POST['submit'])) {
-                    $sql1 = mysqli_query($con, "SELECT `review_title`, `review_body` FROM comics");
-                    echo "<meta http=equiv='refresh' content='0'";
-                    while($reviews = mysqli_fetch_array($sql1)) {
-                        print "<p><h3>" .$reviews['review_title']. "</h3></p>".
-                              "<p class='col-md-8'>" .$reviews['review_body']. "</p>";
-                    }
-                }
+          
         }
 
     } else {
@@ -81,7 +46,35 @@ $body = mysqli_real_escape_string($con, $body);
         print "Minimum length is " . $min_length;
     }
 }
+'<div class="postreview ml-8">' .
+    print '<form method="POST">' .
+        '<input class="form-control" type="text" name="title" placeholder="Title"/>' . "\n<br />" .
+        '<input class="form-control" type="text" name="body" placeholder="Comment"/>' . "\n<br />" .
+        '<input class="button" type="submit" name="submit" value="Write a review"/>' .
+        '<input type = "reset" value="Cancel">' .
+        '</form>' .
+        '</div>';
+
+$sql = mysqli_query($con, "UPDATE reviews SET `marvelid` = `comicid`
+                           SELECT FROM reviews, comics WHERE `marvelid` = `comicid`");
+
+if(isset($_POST['submit'])) {
+    $title = !empty($_POST['title']) ? $_POST['title'] : '';
+    $title = mysqli_real_escape_string($con, $title);
+    $body = !empty($_POST['body']) ? $_POST['body'] : '';
+    $body = mysqli_real_escape_string($con, $body);
+
+    $insert = mysqli_query($con, "INSERT INTO reviews (`title`, `body`) VALUES ('$title', '$body')");
+    $result = mysqli_query($con, $insert);
     
-?>
-</body>
-</html>
+} else {
+
+    header("Location: web/index.php");
+}
+
+    $sql1 = mysqli_query($con, "SELECT title, body FROM reviews");
+    echo "<meta http=equiv='refresh' content='0'";
+    while($reviews = mysqli_fetch_array($sql1)) {
+        print "<p><h3>" .$reviews['title']. "</h3></p>".
+              "<p class='col-md-8'>" .$reviews['body']. "</p>";
+    }
