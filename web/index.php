@@ -55,8 +55,11 @@ $input = mysqli_real_escape_string($con, $input);
         '</form>' .
         '</div>';
 
-$sql = mysqli_query($con, "UPDATE reviews SET `marvelid` = `comicid`
-                           SELECT FROM reviews, comics WHERE `marvelid` = `comicid`");
+$select = "SELECT FROM reviews, comics WHERE `marvelid` = `comicid`");
+$sql = mysqli_query($con, "UPDATE reviews SET `marvelid` = `comicid`");
+if (mysqli_num_rows($sql) > 0) {
+    
+}
 
 if(isset($_POST['submit'])) {
     $title = !empty($_POST['title']) ? $_POST['title'] : '';
