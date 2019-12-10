@@ -15,10 +15,11 @@ if(isset($_POST['submit'])) {
     $body = !empty($_POST['body']) ? $_POST['body'] : '';
     $body = mysqli_real_escape_string($con, $body);
     
-    $marvelid = !empty($_POST['marvelid']) ? $_POST['marvelid'] : ''; // marvelid comes from comics table. Therefore we need to retrieve it from there and insert it in the reviews column marvelid.
+    $marvelid = !empty($_POST['marvelid']) ? $_POST['marvelid'] : ''; 
     $insert = mysqli_query($con, "INSERT INTO reviews (`title`, `body`, `marvelid`) VALUES ('$title', '$body', '$marvelid')"); 
     print "Added: " . "title: " . $title . "body: " . $body . "marvelid: " . $marvelid . "\n";
-    exit;
+    header("Location: http://localhost/ComicsFinder/web/index.php");
+    exit();
 }
 
 ?>
@@ -59,7 +60,15 @@ if(strlen($input) >= $min_length) {
                     '<input type="reset" value="Cancel">' .
                     '</form>' .
             '</div>';
+
+            $sql1 = mysqli_query($con, "SELECT title, body FROM reviews WHERE marvelid = 'marvelid'"); // Select title and body from reviews 
+            echo "<meta http=equiv='refresh' content='0'";
+
+            while($reviews = mysqli_fetch_array($sql1)) {
+            print "<p><h3>" .$reviews['title']. "</h3></p>". // show it in UI. 
+            "<p class='col-md-8'>" .$reviews['body']. "</p>";// SELECT REVIEW BY MARVELID
         }
+    }
     
     } else {
         print "No results";
@@ -70,10 +79,4 @@ if(strlen($input) >= $min_length) {
         print "Minimum length is " . $min_length;
     }
 }
-$sql1 = mysqli_query($con, "SELECT title, body, marvelid FROM reviews"); // Select title and body from reviews 
-echo "<meta http=equiv='refresh' content='0'";
-while($reviews = mysqli_fetch_array($sql1)) {
-    print "<p><h3>" .$reviews['title']. "</h3></p>". // show it in UI. 
-        "<p class='col-md-8'>" .$reviews['body']. "</p>";
 
-}
