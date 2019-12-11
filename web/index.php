@@ -18,8 +18,7 @@ if(isset($_POST['submit'])) {
     $marvelid = !empty($_POST['marvelid']) ? $_POST['marvelid'] : ''; 
     $insert = mysqli_query($con, "INSERT INTO reviews (`title`, `body`, `marvelid`) VALUES ('$title', '$body', '$marvelid')"); 
     print "Added: " . "title: " . $title . "body: " . $body . "marvelid: " . $marvelid . "\n";
-    header("Location: http://localhost/ComicsFinder/web/index.php");
-    exit();
+    header("Location: http://localhost/ComicsFinder/web/index.php?c=" . $input . "&submit=Search");
 }
 
 ?>
@@ -61,12 +60,13 @@ if(strlen($input) >= $min_length) {
                     '</form>' .
             '</div>';
 
-            $sql1 = mysqli_query($con, "SELECT title, body FROM reviews WHERE marvelid = 'marvelid'"); // Select title and body from reviews 
-            echo "<meta http=equiv='refresh' content='0'";
+            // USE TWO QUERIES: One to get the marvel id and the second to get the title and body. 
 
+        $sql1 = mysqli_query($con, "SELECT * FROM reviews WHERE marvelid = '{$results['marvelid']}'"); // Select title and body from reviews 
+           print "mysqli num rows: " . mysqli_num_rows($sql1) . "\n";
             while($reviews = mysqli_fetch_array($sql1)) {
-            print "<p><h3>" .$reviews['title']. "</h3></p>". // show it in UI. 
-            "<p class='col-md-8'>" .$reviews['body']. "</p>";// SELECT REVIEW BY MARVELID
+            print "<p><h3>" .$reviews['title']. "</h3></p>".  
+            "<p class='col-md-8'>" .$reviews['body']. "</p>";
         }
     }
     
