@@ -60,14 +60,13 @@ if(strlen($input) >= $min_length) {
                     '</form>' .
             '</div>';
 
-            // USE TWO QUERIES: One to get the marvel id and the second to get the title and body. 
-
-        $sql1 = mysqli_query($con, "SELECT * FROM reviews WHERE marvelid = '{$results['marvelid']}'"); // Select title and body from reviews 
-           print "mysqli num rows: " . mysqli_num_rows($sql1) . "\n";
+        
+        $sql1 = mysqli_query($con, "SELECT * FROM reviews WHERE marvelid = '{$results['marvelid']}'");  
             while($reviews = mysqli_fetch_array($sql1)) {
             print "<p><h3>" .$reviews['title']. "</h3></p>".  
             "<p class='col-md-8'>" .$reviews['body']. "</p>";
         }
+    
     }
     
     } else {

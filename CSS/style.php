@@ -39,13 +39,14 @@ input {
 }
 
 .results {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 0px;
+    width: 100px;
+    float: right;
+    height: 300px;
     font-family: Impact;
     border: solid;
 
 }
+
 
 h3 {
     display: flex;
