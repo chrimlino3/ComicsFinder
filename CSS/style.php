@@ -9,6 +9,10 @@
     opacity: 90%;
 }
 
+.background {
+   background-color: #f18f01;
+}
+
 img {
     display: flex;
     justify-content: center;
@@ -53,7 +57,7 @@ h2 {
     justify-content: center;
     margin-bottom: 0px;
     font-family: Impact;
-    background-color: grey;
+    background-color: #d00000;
     width: 50%;
  }
 
@@ -74,7 +78,7 @@ p {
     justify-content: center;
     margin-left: 30
     font-family: Impact normal;
-    background-color: #c4c4c4;
+    background-color: #d00000;
     width: 50%;
 }
 
