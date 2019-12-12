@@ -3,9 +3,9 @@
 require_once(__DIR__ . '/../src/includes/db_conn.php');
 require_once(__DIR__ . '/../config.php');
 require_once(__DIR__ . '/../CSS/style.php');
+require_once(__DIR__ . '/../vendor/autoload.php');
 
-$css_path = __DIR__ . '/css/font-awesome.css';
-$icons    = new Awps\FontAwesomeReader( $css_path );
+$icons = new Awps\FontAwesome();
 $icons->getArray('fa-stars');
 
 $min_length = 3;
@@ -18,9 +18,11 @@ if(isset($_POST['submit'])) {
     $title = mysqli_real_escape_string($con, $title);
     $body = !empty($_POST['body']) ? $_POST['body'] : '';
     $body = mysqli_real_escape_string($con, $body);
-    
+    $stars = !empty($_POST['stars']) ? $_POST['stars'] : '';
+    $stars = mysqli_real_escape_string($con, $stars);
+
     $marvelid = !empty($_POST['marvelid']) ? $_POST['marvelid'] : ''; 
-    $insert = mysqli_query($con, "INSERT INTO reviews (`title`, `body`, `marvelid`) VALUES ('$title', '$body', '$marvelid')"); 
+    $insert = mysqli_query($con, "INSERT INTO reviews (`title`, `body`, `marvelid`, `stars`) VALUES ('$title', '$body', '$marvelid', $stars)"); 
     print "Added: " . "title: " . $title . "body: " . $body . "marvelid: " . $marvelid . "\n";
     header("Location: http://localhost/ComicsFinder/web/index.php?c=" . $input . "&submit=Search");
 }
@@ -28,6 +30,7 @@ if(isset($_POST['submit'])) {
 ?>
 <div class="container h-100">
     <form method="GET">
+    
         <div class="d-flex justify-content-center h-100">
             <h2>Browse your favorite superhero stories</h2>
             <h5>Hulk, X-Men, Wolverine, Wasp (Ultimate), Spider-Man</h5>
@@ -55,6 +58,11 @@ if(strlen($input) >= $min_length) {
                 "<p class='col-md-8'>" .$results['description']. "</p>";           
             ?></div><?php
 
+            print '<div class="rating">' .
+                "<span>☆</span><span>☆</span><span>☆</span><span>☆</span><span>☆</span>" .
+                '</div>';
+
+
             print '<form method="POST" class="form">' .
                 '<input class="form-control" type="text" name="title" size="26" placeholder="Title"/>' . "\n<br />" .
                 '<textarea class="form-control" type="text" name="body" placeholder="Comment"></textarea>' . "\n<br />" .
@@ -81,19 +89,3 @@ if(strlen($input) >= $min_length) {
         print "Minimum length is " . $min_length;
     }
 }
-?>
-<div class="stars">
-  <form action="">
-    <input class="star star-5" id="star-5" type="radio" name="star"/>
-    <label class="star star-5" for="star-5"></label>
-    <input class="star star-4" id="star-4" type="radio" name="star"/>
-    <label class="star star-4" for="star-4"></label>
-    <input class="star star-3" id="star-3" type="radio" name="star"/>
-    <label class="star star-3" for="star-3"></label>
-    <input class="star star-2" id="star-2" type="radio" name="star"/>
-    <label class="star star-2" for="star-2"></label>
-    <input class="star star-1" id="star-1" type="radio" name="star"/>
-    <label class="star star-1" for="star-1"></label>
-  </form>
-</div>
-<?
