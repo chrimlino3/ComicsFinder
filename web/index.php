@@ -43,30 +43,32 @@ if(strlen($input) >= $min_length) {
 
     if (mysqli_num_rows($raw_results) > 0){
         while($results = mysqli_fetch_array($raw_results)) {
-            '<div class="results">' .
+            ?>
+            <div class="results" ><?php 
             print "<p><h3>" .$results['title']. "</h3></p>".
-                  "<p class='col-md-8'>" .$results['description']. "</p>".
-                  "<p class='col-md-8'>" . $results['marvelid'] . "</p>".
-                  '<div class="image"><img height="300" width="300" src="' .  $results['thumbnail'] . '.' . $results['extension'] . '"/></div>'.
-            '</div>';
+                  '<div class="image"><img height="300" width="300" src="' .  $results['thumbnail'] . '.' . $results['extension'] . '"/></div>';
+                  "<p class='col-md-8'>" .$results['description']. "</p>";           
+            ?></div><?php
 
-            '<div class="postreview ml-8">' .
-            print '<form method="POST">' .
-                    '<input class="form-control" type="text" name="title" placeholder="Title"/>' . "\n<br />" .
-                    '<input class="form-control" type="text" name="body" placeholder="Comment"/>' . "\n<br />" .
-                    '<input class="button" type="submit" name="submit" value="Write a review"/>' .
-                    '<input type="hidden" name="marvelid" value="' . $results['marvelid'] . '"/>' .
-                    '<input type="reset" value="Cancel">' .
-                    '</form>' .
-            '</div>';
+            print '<form method="POST" class="form">' .
+                '<input class="form-control" type="text" name="title" size="26" placeholder="Title"/>' . "\n<br />" .
+                '<textarea class="form-control" type="text" name="body" placeholder="Comment"></textarea>' . "\n<br />" .
+                '<input class="button" type="submit" name="submit" value="Write a review"/>' .
+                '<input type="hidden" name="marvelid" value="' . $results['marvelid'] . '"/>' .
+                '<input class="button "type="reset" value="Cancel">' .
+            '</form>';
 
         
-        $sql1 = mysqli_query($con, "SELECT * FROM reviews WHERE marvelid = '{$results['marvelid']}'");  
-            while($reviews = mysqli_fetch_array($sql1)) {
-            print "<p><h3>" .$reviews['title']. "</h3></p>".  
-            "<p class='col-md-8'>" .$reviews['body']. "</p>";
+            $sql1 = mysqli_query($con, "SELECT * FROM reviews WHERE marvelid = '{$results['marvelid']}'");  
+                while($reviews = mysqli_fetch_array($sql1)) {
+                    print "<h3>". "Reviews" ."</h3>";
+                    ?><div class="comments"><?php 
+                    print "<h4>" .$reviews['title']. "</h4>".  
+                          "<p>" .$reviews['body']. "</p>";
+                ?></div><?php
+
         }
-    
+        
     }
     
     } else {

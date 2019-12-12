@@ -1,25 +1,81 @@
 <style>
+
 .container {
-    border: solid;
-    border-color: red;
     height: 400px;
-    background-image: url('https://images.unsplash.com/photo-1514329926535-7f6dbfbfb114?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+    display: cover;
+    background-image: url('https://images.unsplash.com/photo-1505489435671-80a165c60816?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=831&q=80');
     background-size: cover;
     background-position: center;
     opacity: 90%;
 }
 
-.button {
-    background-color: #ED1D24;
-    display: inline;
-    border: solid 1px;
-    color: black;
-    padding: 5px 5px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 15px;
-    border-radius: 5px;
+img {
+    display: flex;
+    justify-content: center;
+    margin-left: 795px;
+}
+.results {
+  display: grid;
+  grid-template-columns: 1fr;
+}
+
+.comments {
+    margin-left: 630px;
+    margin-top: 10px;
+
+}
+
+.searchbar {
+    display: flex;
+    justify-content: right;
+    padding: 10px;
+}
+
+h3 {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 0px;
+    font-family: Impact; 
+    color: #c4c4c4;
+}
+
+h2 {
+  display: flex;
+  justify-content:right;
+  padding-top: 180px;
+  color: #960200;
+  padding: 10px;
+}
+
+
+ h4 {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 0px;
+    font-family: Impact;
+    background-color: grey;
+    width: 50%;
+ }
+
+h5 {
+    display: flex;
+    justify-content: right;
+    color: #960200;
+    padding: 10px;
+}
+
+form {
+    margin-left: 850px;
+    margin-top: 10px;
+}
+
+p {
+    display: flex;
+    justify-content: center;
+    margin-left: 30
+    font-family: Impact normal;
+    background-color: #c4c4c4;
+    width: 50%;
 }
 
 .button:hover {
@@ -27,52 +83,19 @@
   color: white;
 }
 
-input {
+.button {
+    background-color: #ED1D24;
+    display: inline;
+    color: black;
     padding: 5px 5px;
-}
-
-.searchbar {
-    display: flex;
-    justify-content: center;
-    padding-top: 40px;
-
-}
-
-.results {
-    width: 100px;
-    float: right;
-    height: 300px;
-    font-family: Impact;
-    border: solid;
-
-}
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 15px;
+    border-radius: 5px;
 
 
-h3 {
-    display: flex;
-    justify-content: left;
-    margin-bottom: 0px;
-    font-family: Impact; 
-}
 
-/* p {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 0px;
-    font-family: Impact normal;
-} */
 
-h2 {
-    display: flex;
-    justify-content: center;
-    color: white;
-    font-family: Impact;
-}
-
-h5 {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 0px;
-    font-family: Impact;
-}
 </style>
+
