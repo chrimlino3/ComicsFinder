@@ -6,4 +6,5 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'Awps\\' => array($vendorDir . '/awps/font-awesome-php/src'),
 );

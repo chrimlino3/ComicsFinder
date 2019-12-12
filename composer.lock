@@ -4,8 +4,44 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "78a49f20a62cfa5fdd7d1fd4ec735635",
+    "content-hash": "4b901770534f3e922a71cb0ac94ef501",
     "packages": [
+        {
+            "name": "awps/font-awesome-php",
+            "version": "4.7.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/awps/font-awesome-php.git",
+                "reference": "a395b3b7df3b6970b64cef086bbcc9686625bb60"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/awps/font-awesome-php/zipball/a395b3b7df3b6970b64cef086bbcc9686625bb60",
+                "reference": "a395b3b7df3b6970b64cef086bbcc9686625bb60",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Awps\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-3.0+"
+            ],
+            "authors": [
+                {
+                    "name": "Andrei Surdu",
+                    "homepage": "http://zerowp.com/"
+                }
+            ],
+            "description": "A PHP library for Font Awesome.",
+            "time": "2017-12-19T19:01:16+00:00"
+        },
         {
             "name": "phpunit/php-timer",
             "version": "2.1.2",
