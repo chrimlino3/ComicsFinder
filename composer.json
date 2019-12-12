@@ -1,6 +1,7 @@
 {
     "require": {
         "phpunit/php-timer": "^2.1",
-        "twbs/bootstrap": "4.3"
+        "twbs/bootstrap": "4.3",
+        "awps/font-awesome-php": "^4.7"
     }
 }

@@ -6,6 +6,20 @@ namespace Composer\Autoload;
 
 class ComposerStaticInit5deab0043443605166cdf64feb65f03d
 {
+    public static $prefixLengthsPsr4 = array (
+        'A' => 
+        array (
+            'Awps\\' => 5,
+        ),
+    );
+
+    public static $prefixDirsPsr4 = array (
+        'Awps\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/awps/font-awesome-php/src',
+        ),
+    );
+
     public static $classMap = array (
         'SebastianBergmann\\Timer\\Exception' => __DIR__ . '/..' . '/phpunit/php-timer/src/Exception.php',
         'SebastianBergmann\\Timer\\RuntimeException' => __DIR__ . '/..' . '/phpunit/php-timer/src/RuntimeException.php',
@@ -15,6 +29,8 @@ class ComposerStaticInit5deab0043443605166cdf64feb65f03d
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
+            $loader->prefixLengthsPsr4 = ComposerStaticInit5deab0043443605166cdf64feb65f03d::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit5deab0043443605166cdf64feb65f03d::$prefixDirsPsr4;
             $loader->classMap = ComposerStaticInit5deab0043443605166cdf64feb65f03d::$classMap;
 
         }, null, ClassLoader::class);
