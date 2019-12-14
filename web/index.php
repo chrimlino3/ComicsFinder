@@ -4,6 +4,7 @@ require_once(__DIR__ . '/../src/includes/db_conn.php');
 require_once(__DIR__ . '/../config.php');
 require_once(__DIR__ . '/../CSS/style.php');
 require_once(__DIR__ . '/../vendor/autoload.php');
+require_once(__DIR__ . '/../src/includes/stars.js');
 
 $icons = new Awps\FontAwesome();
 $icons->getArray('fa-stars');
@@ -57,7 +58,7 @@ if(strlen($input) >= $min_length) {
                 '<div class="image"><img height="300" width="300" src="' .  $results['thumbnail'] . '.' . $results['extension'] . '"/></div>';
                 "<p class='col-md-8'>" .$results['description']. "</p>";           
             ?></div><?php
-
+            
             print '<div class="rating">' .
                 "<span>☆</span><span>☆</span><span>☆</span><span>☆</span><span>☆</span>" .
                 '</div>';
@@ -77,6 +78,7 @@ if(strlen($input) >= $min_length) {
                           ?><div class="comments"><?php 
                                 print "<h4>" .$reviews['title']. "</h4>".  
                                     "<p>" .$reviews['body']. "</p>";
+                                    "<p>" .$reviews['stars']. "</p>"
                           ?></div></div><?php
                         } 
         
