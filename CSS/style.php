@@ -87,6 +87,25 @@ p {
   color: white;
 }
 
+.rating > span:hover:before {
+    content: "\2605";
+    position: absolute;
+}
+
+.rating {
+  unicode-bidi: bidi-override;
+  direction: rtl;
+  display: flex;
+  justify-content: center;
+  font-size: 50px;
+  color: red;
+}
+
+.rating > span:hover:before,
+.rating > span:hover ~ span:before {
+   content: "\2605";
+   position: absolute;
+}
 .button {
     background-color: #ED1D24;
     display: inline;
@@ -97,7 +116,6 @@ p {
     display: inline-block;
     font-size: 15px;
     border-radius: 5px;
-
 
 
 
