@@ -58,11 +58,6 @@ if(strlen($input) >= $min_length) {
                 '<div class="image"><img height="300" width="300" src="' .  $results['thumbnail'] . '.' . $results['extension'] . '"/></div>';
                 "<p class='col-md-8'>" .$results['description']. "</p>";           
             ?></div><?php
-            
-            print '<div class="rating">' .
-                "<span>☆</span><span>☆</span><span>☆</span><span>☆</span><span>☆</span>" .
-                '</div>';
-
 
             print '<form method="POST" class="form">' .
                 '<input class="form-control" type="text" name="title" size="26" placeholder="Title"/>' . "\n<br />" .
@@ -71,6 +66,8 @@ if(strlen($input) >= $min_length) {
                 '<input type="hidden" name="marvelid" value="' . $results['marvelid'] . '"/>' .
                 '<input class="button "type="reset" value="Cancel">' .
             '</form>';
+
+            include('../src/includes/star_interface.php');
 
             $sql1 = mysqli_query($con, "SELECT * FROM reviews WHERE marvelid = '{$results['marvelid']}'");  
                 while($reviews = mysqli_fetch_array($sql1)) {
