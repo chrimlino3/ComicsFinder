@@ -1,8 +1,9 @@
 <?php
 require_once(__DIR__ . '/../../vendor/autoload.php');
-
+require_once('stars.php')
 // $icons = new Awps\FontAwesomeReader();
-
+// use PhpExtended\Glyphicon\Glyphicon as G;
+// print G::EURO();	
 // $icons->getArray('fa-stars');
 
 ?> 
@@ -44,4 +45,25 @@ require_once(__DIR__ . '/../../vendor/autoload.php');
     </form>
     </div>
     </div> 
+
+<?php
+require_once(__DIR__ . '/star_interface.php');
+?>
+<script type="text/javascript" src="">
+var $ = jQuery;
+$('#ratingForm').on('submit', function(event){
+    event.preventDefault();
+    var formData = $(this).serialize();
+    $.ajax({
+        type: 'POST',
+        url: 'web/index.php',
+        data: formData,
+        success: function(response){
+            $('#ratingForm')[0].reset();
+            window.setTimeout(function(){window.location.reload()}, 1000)
+        }
+    });
+});
+
+</script>
 <?

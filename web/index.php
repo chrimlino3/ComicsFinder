@@ -49,6 +49,7 @@ if(strlen($input) >= $min_length) {
     $raw_results = mysqli_query($con, "SELECT `title`, `issue`, `description`, `thumbnail`, `characters`, `thumbnail`, `extension`, `marvelid` 
                                             FROM comics Where (`characters` LIKE '%".$input."%')");
 
+
     if (mysqli_num_rows($raw_results) > 0){
         while($results = mysqli_fetch_array($raw_results)) {
             ?>
@@ -67,8 +68,12 @@ if(strlen($input) >= $min_length) {
                 '<input class="button "type="reset" value="Cancel">' .
             '</form>';
 
-            include('../src/includes/star_interface.php');
+            require_once('../src/includes/star_interface.php');
 
+            $stars = !empty($_POST['stars']) ? $_POST['stars'] : '';
+            $stars = mysqli_real_escape_string($con, $stars);        
+            $results = mysqli_query($con, "INSERT INTO reviews (`stars`) VALUES ('$stars')");
+            
             $sql1 = mysqli_query($con, "SELECT * FROM reviews WHERE marvelid = '{$results['marvelid']}'");  
                 while($reviews = mysqli_fetch_array($sql1)) {
                     print "<h3>". "Reviews" ."</h3>";
