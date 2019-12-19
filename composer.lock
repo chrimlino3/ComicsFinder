@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4b901770534f3e922a71cb0ac94ef501",
+    "content-hash": "d66c65f9157bdb22650d2c89e2c33445",
     "packages": [
         {
             "name": "awps/font-awesome-php",
@@ -41,6 +41,49 @@
             ],
             "description": "A PHP library for Font Awesome.",
             "time": "2017-12-19T19:01:16+00:00"
+        },
+        {
+            "name": "php-extended/php-glyphicon",
+            "version": "1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://gitlab.com/php-extended/php-glyphicon.git",
+                "reference": "f1a47fb3b27d12501f2fe748999b4daaf020341d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://gitlab.com/api/v4/projects/php-extended%2Fphp-glyphicon/repository/archive.zip?sha=f1a47fb3b27d12501f2fe748999b4daaf020341d",
+                "reference": "f1a47fb3b27d12501f2fe748999b4daaf020341d",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "PhpExtended\\Glyphicon\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Anastaszor",
+                    "homepage": "https://gitlab.com/Anastaszor",
+                    "role": "developer"
+                }
+            ],
+            "description": "A library to insert more easily glyphicons to your php templates",
+            "homepage": "https://gitlab.com/php-extended/php-glyphicon",
+            "keywords": [
+                "glyphicon",
+                "php",
+                "template"
+            ],
+            "time": "2018-06-06T20:40:28+00:00"
         },
         {
             "name": "phpunit/php-timer",

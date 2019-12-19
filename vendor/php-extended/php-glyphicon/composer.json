@@ -1,0 +1,30 @@
+{
+	"name" : "php-extended/php-glyphicon",
+	"description" : "A library to insert more easily glyphicons to your php templates",
+	"type" : "library",
+	"homepage" : "https://gitlab.com/php-extended/php-glyphicon",
+	"license" : "MIT",
+	"authors" : [{
+			"name" : "Anastaszor",
+			"homepage" : "https://gitlab.com/Anastaszor",
+			"role" : "Developer"
+		}
+	],
+	"require" : {
+		"php" : ">=5.3"
+	},
+	"support" : {
+		"issues" : "https://gitlab.com/php-extended/php-glyphicon/issues",
+		"source" : "https://gitlab.com/php-extended/php-glyphicon"
+	},
+	"keywords" : [
+		"php",
+		"glyphicon",
+		"template"
+	],
+	"autoload" : {
+		"psr-4" : {
+			"PhpExtended\\Glyphicon\\" : "src/"
+		}
+	}
+}

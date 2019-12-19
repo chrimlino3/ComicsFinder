@@ -7,6 +7,10 @@ namespace Composer\Autoload;
 class ComposerStaticInit5deab0043443605166cdf64feb65f03d
 {
     public static $prefixLengthsPsr4 = array (
+        'P' => 
+        array (
+            'PhpExtended\\Glyphicon\\' => 22,
+        ),
         'A' => 
         array (
             'Awps\\' => 5,
@@ -14,6 +18,10 @@ class ComposerStaticInit5deab0043443605166cdf64feb65f03d
     );
 
     public static $prefixDirsPsr4 = array (
+        'PhpExtended\\Glyphicon\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/php-extended/php-glyphicon/src',
+        ),
         'Awps\\' => 
         array (
             0 => __DIR__ . '/..' . '/awps/font-awesome-php/src',
