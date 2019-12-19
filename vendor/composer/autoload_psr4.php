@@ -6,5 +6,6 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'PhpExtended\\Glyphicon\\' => array($vendorDir . '/php-extended/php-glyphicon/src'),
     'Awps\\' => array($vendorDir . '/awps/font-awesome-php/src'),
 );
