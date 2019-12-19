@@ -4,6 +4,7 @@ require_once(__DIR__ . '/../src/includes/db_conn.php');
 require_once(__DIR__ . '/../config.php');
 require_once(__DIR__ . '/../CSS/style.php');
 require_once(__DIR__ . '/../vendor/autoload.php');
+require_once(__DIR__ . '/../vendor/awps/font-awesome-php/src/load.php');
 // require_once(__DIR__ . '/../src/includes/stars.js');
 
 $icons = new Awps\FontAwesome();
@@ -49,6 +50,7 @@ if(strlen($input) >= $min_length) {
     $raw_results = mysqli_query($con, "SELECT `title`, `issue`, `description`, `thumbnail`, `characters`, `thumbnail`, `extension`, `marvelid` 
                                             FROM comics Where (`characters` LIKE '%".$input."%')");
 
+    $results = mysqli_query($con, "INSERT INTO reviews (`stars`) VALUES ('$stars')");
 
     if (mysqli_num_rows($raw_results) > 0){
         while($results = mysqli_fetch_array($raw_results)) {
@@ -60,6 +62,27 @@ if(strlen($input) >= $min_length) {
                 "<p class='col-md-8'>" .$results['description']. "</p>";           
             ?></div><?php
 
+            print '<div class="row">' .
+                '<div class="col-sm-12">' .
+                '<form id="ratingForm" method="POST">' .
+                '<div class="form-group">' .
+                '<h4>Comments</h4>' .
+                '<button name="stars" type="button" class="btn btn-warning btn-sm rateButton" aria-label="Left Align">' .
+                '<span class="glyphicon glyphicon-star" aria-hidden="true"></span>' .
+                '</button>' .
+                '<button name="stars" type="button" class="btn btn-default btn-grey btn-sm rateButton" aria-label="Left Align">' .
+                '<span class="glyphicon glyphicon-star" aria-hidden="true"> </span>' .
+                '</button>' .
+                '<button name="stars" type="button" class="btn btn-default btn-grey btn-sm rateButton" aria-label="Left Align">' .
+                '<span class="glyphicon glyphicon-star" aria-hidden="true"></span>' .
+                '</button>' .
+                '<button name="stars" type="button" class="btn btn-default btn-grey btn-sm rateButton" aria-label="Left Align">' .
+                '<span class="glyphicon glyphicon-star" aria-hidden="true"></span>' .
+                '</button>' .
+                '<button name="stars" type="button" class="btn btn-default btn-grey btn-sm rateButton" aria-label="Left Align">' .
+                '<span class="glyphicon glyphicon-star" aria-hidden="true"></span>' .
+                '</button>';
+
             print '<form method="POST" class="form">' .
                 '<input class="form-control" type="text" name="title" size="26" placeholder="Title"/>' . "\n<br />" .
                 '<textarea class="form-control" type="text" name="body" placeholder="Comment"></textarea>' . "\n<br />" .
@@ -68,11 +91,6 @@ if(strlen($input) >= $min_length) {
                 '<input class="button "type="reset" value="Cancel">' .
             '</form>';
 
-            require_once('../src/includes/star_interface.php');
-
-            $stars = !empty($_POST['stars']) ? $_POST['stars'] : '';
-            $stars = mysqli_real_escape_string($con, $stars);        
-            $results = mysqli_query($con, "INSERT INTO reviews (`stars`) VALUES ('$stars')");
             
             $sql1 = mysqli_query($con, "SELECT * FROM reviews WHERE marvelid = '{$results['marvelid']}'");  
                 while($reviews = mysqli_fetch_array($sql1)) {

@@ -1,10 +1,6 @@
 <?php
 require_once(__DIR__ . '/../../vendor/autoload.php');
-require_once('stars.php')
-// $icons = new Awps\FontAwesomeReader();
-// use PhpExtended\Glyphicon\Glyphicon as G;
-// print G::EURO();	
-// $icons->getArray('fa-stars');
+require_once(__DIR__ . '/../../web/index.php');
 
 ?> 
     <div class="row">
@@ -12,23 +8,24 @@ require_once('stars.php')
     <form id="ratingForm" method="POST">
     <div class="form-group">
     <h4>Comments</h4>
-    <button type="button" class="btn btn-warning btn-sm rateButton" aria-label="Left Align">
+    <button name="stars" type="button" class="btn btn-warning btn-sm rateButton" aria-label="Left Align">
     <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
     </button>
-    <button type="button" class="btn btn-default btn-grey btn-sm rateButton" aria-label="Left Align">
+    <button name="stars" type="button" class="btn btn-default btn-grey btn-sm rateButton" aria-label="Left Align">
     <span class="glyphicon glyphicon-star" aria-hidden="true"> </span>
     </button>
-    <button type="button" class="btn btn-default btn-grey btn-sm rateButton" aria-label="Left Align">
+    <button name="stars" type="button" class="btn btn-default btn-grey btn-sm rateButton" aria-label="Left Align">
     <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
     </button>
-    <button type="button" class="btn btn-default btn-grey btn-sm rateButton" aria-label="Left Align">
+    <button name="stars" type="button" class="btn btn-default btn-grey btn-sm rateButton" aria-label="Left Align">
     <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
     </button>
-    <button type="button" class="btn btn-default btn-grey btn-sm rateButton" aria-label="Left Align">
+    <button name="stars" type="button" class="btn btn-default btn-grey btn-sm rateButton" aria-label="Left Align">
     <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
     </button>
-    <input type="hidden" class="form-control" id="rating" name="rating" value="1">
-    <input type="hidden" class="form-control" id="itemId" name="itemId" value="12345678">
+
+    <input name="stars" type="hidden" class="form-control" id="stars" name="stars" value=<?$stars?>>
+    <input type="hidden" name="marvelid" class="form-control" name="marvelid" value= <?$results['marvelid']?>>
     </div>
     <div class="form-group">
     <label for="usr"></label>
@@ -41,7 +38,6 @@ require_once('stars.php')
     <div class="form-group">
     <button type="submit" class="btn btn-info" id="saveReview">Save Review</button> <button type="button" class="btn btn-info" id="cancelReview">Cancel</button>
     </div>
-    <input type="hidden" name="marvelid" value="' . <?$results['marvelid']?> . '"/>
     </form>
     </div>
     </div> 
@@ -62,7 +58,7 @@ $('#ratingForm').on('submit', function(event){
             $('#ratingForm')[0].reset();
             window.setTimeout(function(){window.location.reload()}, 1000)
         }
-    });
+    }); 
 });
 
 </script>
