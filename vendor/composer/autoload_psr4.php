@@ -6,6 +6,7 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'Symfony\\Component\\Process\\' => array($vendorDir . '/symfony/process'),
     'PhpExtended\\Glyphicon\\' => array($vendorDir . '/php-extended/php-glyphicon/src'),
     'Awps\\' => array($vendorDir . '/awps/font-awesome-php/src'),
 );

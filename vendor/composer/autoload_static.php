@@ -6,7 +6,15 @@ namespace Composer\Autoload;
 
 class ComposerStaticInit5deab0043443605166cdf64feb65f03d
 {
+    public static $files = array (
+        'ce89ac35a6c330c55f4710717db9ff78' => __DIR__ . '/..' . '/kriswallsmith/assetic/src/functions.php',
+    );
+
     public static $prefixLengthsPsr4 = array (
+        'S' => 
+        array (
+            'Symfony\\Component\\Process\\' => 26,
+        ),
         'P' => 
         array (
             'PhpExtended\\Glyphicon\\' => 22,
@@ -18,6 +26,10 @@ class ComposerStaticInit5deab0043443605166cdf64feb65f03d
     );
 
     public static $prefixDirsPsr4 = array (
+        'Symfony\\Component\\Process\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/process',
+        ),
         'PhpExtended\\Glyphicon\\' => 
         array (
             0 => __DIR__ . '/..' . '/php-extended/php-glyphicon/src',
@@ -25,6 +37,23 @@ class ComposerStaticInit5deab0043443605166cdf64feb65f03d
         'Awps\\' => 
         array (
             0 => __DIR__ . '/..' . '/awps/font-awesome-php/src',
+        ),
+    );
+
+    public static $prefixesPsr0 = array (
+        'C' => 
+        array (
+            'ComponentInstaller' => 
+            array (
+                0 => __DIR__ . '/..' . '/robloach/component-installer/src',
+            ),
+        ),
+        'A' => 
+        array (
+            'Assetic' => 
+            array (
+                0 => __DIR__ . '/..' . '/kriswallsmith/assetic/src',
+            ),
         ),
     );
 
@@ -39,6 +68,7 @@ class ComposerStaticInit5deab0043443605166cdf64feb65f03d
         return \Closure::bind(function () use ($loader) {
             $loader->prefixLengthsPsr4 = ComposerStaticInit5deab0043443605166cdf64feb65f03d::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInit5deab0043443605166cdf64feb65f03d::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInit5deab0043443605166cdf64feb65f03d::$prefixesPsr0;
             $loader->classMap = ComposerStaticInit5deab0043443605166cdf64feb65f03d::$classMap;
 
         }, null, ClassLoader::class);
