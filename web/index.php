@@ -81,8 +81,7 @@ if(strlen($input) >= $min_length) {
                     '</button>' .
                     '<button name="stars" type="button" class="btn btn-default btn-grey btn-sm rateButton" aria-label="Left Align">' .
                     '<span class="glyphicon glyphicon-star" aria-hidden="true"></span>' .
-                    '</button>';
-
+                    '</button>' .
                     '<input class="form-control" type="text" name="title" size="26" placeholder="Title"/>' . "\n<br />" .
                     '<textarea class="form-control" type="text" name="body" placeholder="Comment"></textarea>' . "\n<br />" .
                     '<input class="button" type="submit" name="submit" value="Write a review"/>' .
