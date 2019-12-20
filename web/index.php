@@ -60,37 +60,39 @@ if(strlen($input) >= $min_length) {
             print "<p><h3>" .$results['title']. "</h3></p>".
                 '<div class="image"><img height="300" width="300" src="' .  $results['thumbnail'] . '.' . $results['extension'] . '"/></div>';
                 "<p class='col-md-8'>" .$results['description']. "</p>";           
-            ?></div><?php
+                ?></div><?php
+                
+                print '<div class="row">' .
+                    '<div class="col-sm-12">' .
+                    '<form method="POST" id="ratingForm">' .
+                    '<div class="form-group">' .
+                    '<h4>Comments</h4>' .
+                    '<button name="stars" type="button" class="btn btn-warning btn-sm rateButton" aria-label="Left Align">' .
+                    '<span class="glyphicon glyphicon-star" aria-hidden="true"></span>' .
+                    '</button>' .
+                    '<button name="stars" type="button" class="btn btn-default btn-grey btn-sm rateButton" aria-label="Left Align">' .
+                    '<span class="glyphicon glyphicon-star" aria-hidden="true"> </span>' .
+                    '</button>' .
+                    '<button name="stars" type="button" class="btn btn-default btn-grey btn-sm rateButton" aria-label="Left Align">' .
+                    '<span class="glyphicon glyphicon-star" aria-hidden="true"></span>' .
+                    '</button>' .
+                    '<button name="stars" type="button" class="btn btn-default btn-grey btn-sm rateButton" aria-label="Left Align">' .
+                    '<span class="glyphicon glyphicon-star" aria-hidden="true"></span>' .
+                    '</button>' .
+                    '<button name="stars" type="button" class="btn btn-default btn-grey btn-sm rateButton" aria-label="Left Align">' .
+                    '<span class="glyphicon glyphicon-star" aria-hidden="true"></span>' .
+                    '</button>';
 
-            print '<div class="row">' .
-                '<div class="col-sm-12">' .
-                '<form id="ratingForm" method="POST">' .
-                '<div class="form-group">' .
-                '<h4>Comments</h4>' .
-                '<button name="stars" type="button" class="btn btn-warning btn-sm rateButton" aria-label="Left Align">' .
-                '<span class="glyphicon glyphicon-star" aria-hidden="true"></span>' .
-                '</button>' .
-                '<button name="stars" type="button" class="btn btn-default btn-grey btn-sm rateButton" aria-label="Left Align">' .
-                '<span class="glyphicon glyphicon-star" aria-hidden="true"> </span>' .
-                '</button>' .
-                '<button name="stars" type="button" class="btn btn-default btn-grey btn-sm rateButton" aria-label="Left Align">' .
-                '<span class="glyphicon glyphicon-star" aria-hidden="true"></span>' .
-                '</button>' .
-                '<button name="stars" type="button" class="btn btn-default btn-grey btn-sm rateButton" aria-label="Left Align">' .
-                '<span class="glyphicon glyphicon-star" aria-hidden="true"></span>' .
-                '</button>' .
-                '<button name="stars" type="button" class="btn btn-default btn-grey btn-sm rateButton" aria-label="Left Align">' .
-                '<span class="glyphicon glyphicon-star" aria-hidden="true"></span>' .
-                '</button>';
-
-            print '<form method="POST" class="form">' .
-                '<input class="form-control" type="text" name="title" size="26" placeholder="Title"/>' . "\n<br />" .
-                '<textarea class="form-control" type="text" name="body" placeholder="Comment"></textarea>' . "\n<br />" .
-                '<input class="button" type="submit" name="submit" value="Write a review"/>' .
-                '<input type="hidden" name="marvelid" value="' . $results['marvelid'] . '"/>' .
-                '<input class="button "type="reset" value="Cancel">' .
-            '</form>';
-
+                    '<input class="form-control" type="text" name="title" size="26" placeholder="Title"/>' . "\n<br />" .
+                    '<textarea class="form-control" type="text" name="body" placeholder="Comment"></textarea>' . "\n<br />" .
+                    '<input class="button" type="submit" name="submit" value="Write a review"/>' .
+                    '<input type="hidden" name="marvelid" value="' . $results['marvelid'] . '"/>' .
+                    '<input class="button "type="reset" value="Cancel">' .
+                '</form>' . 
+                '</div>' . 
+                '</div'.
+                '<div>';
+            
             
             $sql1 = mysqli_query($con, "SELECT * FROM reviews WHERE marvelid = '{$results['marvelid']}'");  
                 while($reviews = mysqli_fetch_array($sql1)) {
