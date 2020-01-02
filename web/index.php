@@ -61,7 +61,15 @@ if(strlen($input) >= $min_length) {
                 "<p class='col-md-8'>" .$results['description']. "</p>";           
                 ?></div><?php
                 
-                require_once(__DIR__ . '/../html/comments.php');
+                    print 
+                    '<form method="POST">' .
+                    '<input class="form-control" type="text" name="title" size="26" placeholder="Title"/>' . "\n<br />" .
+                    '<textarea class="form-control" type="text" name="body" placeholder="Comment"></textarea>' . "\n<br />" .
+                    '<input class="button" type="submit" name="submit" value="Write a review"/>' .
+                    '<input type="hidden" name="marvelid" value="' . $results['marvelid'] . '"/>' .
+                    '<input class="button "type="reset" value="Cancel">' .
+                '</form>';
+            
             
             $sql1 = mysqli_query($con, "SELECT * FROM reviews WHERE marvelid = '{$results['marvelid']}'");  
                 while($reviews = mysqli_fetch_array($sql1)) {
@@ -69,7 +77,7 @@ if(strlen($input) >= $min_length) {
                           ?><div class="comments"><?php 
                                 print "<h4>" .$reviews['title']. "</h4>".  
                                     "<p>" .$reviews['body']. "</p>";
-                                    "<p>" .$reviews['stars']. "</p>"
+                                    "<p>" .$reviews['stars']. "</p>";
                           ?></div></div><?php
                         } 
         
