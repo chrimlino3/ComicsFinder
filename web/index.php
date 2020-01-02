@@ -50,7 +50,6 @@ if(strlen($input) >= $min_length) {
     $raw_results = mysqli_query($con, "SELECT `title`, `issue`, `description`, `thumbnail`, `characters`, `thumbnail`, `extension`, `marvelid` 
                                             FROM comics Where (`characters` LIKE '%".$input."%')");
 
-    $results = mysqli_query($con, "INSERT INTO reviews (`stars`) VALUES ('$stars')");
 
     if (mysqli_num_rows($raw_results) > 0){
         while($results = mysqli_fetch_array($raw_results)) {
@@ -62,36 +61,7 @@ if(strlen($input) >= $min_length) {
                 "<p class='col-md-8'>" .$results['description']. "</p>";           
                 ?></div><?php
                 
-                print '<div class="row">' .
-                    '<div class="col-sm-12">' .
-                    '<form method="POST" id="ratingForm">' .
-                    '<div class="form-group">' .
-                    '<h4>Comments</h4>' .
-                    '<button name="stars" type="button" class="btn btn-warning btn-sm rateButton" aria-label="Left Align">' .
-                    '<span class="glyphicon glyphicon-star" aria-hidden="true"></span>' .
-                    '</button>' .
-                    '<button name="stars" type="button" class="btn btn-default btn-grey btn-sm rateButton" aria-label="Left Align">' .
-                    '<span class="glyphicon glyphicon-star" aria-hidden="true"> </span>' .
-                    '</button>' .
-                    '<button name="stars" type="button" class="btn btn-default btn-grey btn-sm rateButton" aria-label="Left Align">' .
-                    '<span class="glyphicon glyphicon-star" aria-hidden="true"></span>' .
-                    '</button>' .
-                    '<button name="stars" type="button" class="btn btn-default btn-grey btn-sm rateButton" aria-label="Left Align">' .
-                    '<span class="glyphicon glyphicon-star" aria-hidden="true"></span>' .
-                    '</button>' .
-                    '<button name="stars" type="button" class="btn btn-default btn-grey btn-sm rateButton" aria-label="Left Align">' .
-                    '<span class="glyphicon glyphicon-star" aria-hidden="true"></span>' .
-                    '</button>' .
-                    '<input class="form-control" type="text" name="title" size="26" placeholder="Title"/>' . "\n<br />" .
-                    '<textarea class="form-control" type="text" name="body" placeholder="Comment"></textarea>' . "\n<br />" .
-                    '<input class="button" type="submit" name="submit" value="Write a review"/>' .
-                    '<input type="hidden" name="marvelid" value="' . $results['marvelid'] . '"/>' .
-                    '<input class="button "type="reset" value="Cancel">' .
-                '</form>' . 
-                '</div>' . 
-                '</div'.
-                '<div>';
-            
+                require_once(__DIR__ . '/../html/comments.php');
             
             $sql1 = mysqli_query($con, "SELECT * FROM reviews WHERE marvelid = '{$results['marvelid']}'");  
                 while($reviews = mysqli_fetch_array($sql1)) {
