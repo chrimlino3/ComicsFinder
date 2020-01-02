@@ -7,24 +7,22 @@ require_once(__DIR__ . '/../vendor/autoload.php');
 require_once(__DIR__ . '/../vendor/awps/font-awesome-php/src/load.php');
 // require_once(__DIR__ . '/../src/includes/stars.js');
 
-$icons = new Awps\FontAwesome();
-$icons->getArray('fa-stars');
-
 $min_length = 3;
 $input = !empty($_GET['c']) ? $_GET['c'] : '';
 $input = mysqli_real_escape_string($con, $input);
 
 if(isset($_POST['submit'])) {
-    print_r($_POST);
+    // print_r($_POST) . "\n";
     $title = !empty($_POST['title']) ? $_POST['title'] : '';
+    // print_r($title, true) . "\n";
     $title = mysqli_real_escape_string($con, $title);
     $body = !empty($_POST['body']) ? $_POST['body'] : '';
     $body = mysqli_real_escape_string($con, $body);
-    $stars = !empty($_POST['stars']) ? $_POST['stars'] : '';
-    $stars = mysqli_real_escape_string($con, $stars);
-
+    // $stars = !empty($_POST['stars']) ? $_POST['stars'] : '';
+    // $stars = mysqli_real_escape_string($con, $stars);
     $marvelid = !empty($_POST['marvelid']) ? $_POST['marvelid'] : ''; 
-    $insert = mysqli_query($con, "INSERT INTO reviews (`title`, `body`, `marvelid`, `stars`) VALUES ('$title', '$body', '$marvelid', $stars)"); 
+    $insert = "INSERT INTO reviews (`title`, `body`, `marvelid`) VALUES ('$title', '$body', '$marvelid')";
+    mysqli_query($con, $insert) or die('Error : ' . mysqli_error($con));
     print "Added: " . "title: " . $title . "body: " . $body . "marvelid: " . $marvelid . "\n";
     header("Location: http://localhost/ComicsFinder/web/index.php?c=" . $input . "&submit=Search");
 }
@@ -77,7 +75,7 @@ if(strlen($input) >= $min_length) {
                           ?><div class="comments"><?php 
                                 print "<h4>" .$reviews['title']. "</h4>".  
                                     "<p>" .$reviews['body']. "</p>";
-                                    "<p>" .$reviews['stars']. "</p>";
+                                   
                           ?></div></div><?php
                         } 
         
