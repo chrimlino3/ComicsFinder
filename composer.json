@@ -2,6 +2,8 @@
     "require": {
         "phpunit/php-timer": "^2.1",
         "twbs/bootstrap": "4.3",
-        "awps/font-awesome-php": "^4.7"
+        "awps/font-awesome-php": "^4.7",
+        "php-extended/php-glyphicon": "^1.0",
+        "components/jquery": "1.9.*"
     }
 }
