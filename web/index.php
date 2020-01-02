@@ -58,20 +58,21 @@ if(strlen($input) >= $min_length) {
                 '<div class="image"><img height="300" width="300" src="' .  $results['thumbnail'] . '.' . $results['extension'] . '"/></div>';
                 "<p class='col-md-8'>" .$results['description']. "</p>";           
                 ?></div><?php
-                
-                    print 
+                include '../html/comments.php';
+
+                print 
                     '<form method="POST">' .
-                    '<input class="form-control" type="text" name="title" size="26" placeholder="Title"/>' . "\n<br />" .
-                    '<textarea class="form-control" type="text" name="body" placeholder="Comment"></textarea>' . "\n<br />" .
-                    '<input class="button" type="submit" name="submit" value="Write a review"/>' .
-                    '<input type="hidden" name="marvelid" value="' . $results['marvelid'] . '"/>' .
-                    '<input class="button "type="reset" value="Cancel">' .
-                '</form>';
+                        '<input class="form-control" type="text" name="title" size="26" placeholder="Title"/>' . "\n<br />" .
+                        '<textarea class="form-control" type="text" name="body" placeholder="Comment"></textarea>' . "\n<br />" .
+                        '<input class="button" type="submit" name="submit" value="Write a review"/>' .
+                        '<input type="hidden" name="marvelid" value="' . $results['marvelid'] . '"/>' .
+                        '<input class="button "type="reset" value="Cancel">' .
+                    '</form>';
             
             
             $sql1 = mysqli_query($con, "SELECT * FROM reviews WHERE marvelid = '{$results['marvelid']}'");  
+            print "<h3>". "Reviews" ."</h3>";
                 while($reviews = mysqli_fetch_array($sql1)) {
-                    print "<h3>". "Reviews" ."</h3>";
                           ?><div class="comments"><?php 
                                 print "<h4>" .$reviews['title']. "</h4>".  
                                     "<p>" .$reviews['body']. "</p>";
