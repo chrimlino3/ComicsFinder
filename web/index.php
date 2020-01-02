@@ -18,10 +18,10 @@ if(isset($_POST['submit'])) {
     $title = mysqli_real_escape_string($con, $title);
     $body = !empty($_POST['body']) ? $_POST['body'] : '';
     $body = mysqli_real_escape_string($con, $body);
-    // $stars = !empty($_POST['stars']) ? $_POST['stars'] : '';
-    // $stars = mysqli_real_escape_string($con, $stars);
+    $stars = !empty($_POST['stars']) ? $_POST['stars'] : '';
+    $stars = mysqli_real_escape_string($con, $stars);
     $marvelid = !empty($_POST['marvelid']) ? $_POST['marvelid'] : ''; 
-    $insert = "INSERT INTO reviews (`title`, `body`, `marvelid`) VALUES ('$title', '$body', '$marvelid')";
+    $insert = "INSERT INTO reviews (`title`, `body`, `marvelid`, `stars`) VALUES ('$title', '$body', '$marvelid', '$stars')";
     mysqli_query($con, $insert) or die('Error : ' . mysqli_error($con));
     print "Added: " . "title: " . $title . "body: " . $body . "marvelid: " . $marvelid . "\n";
     header("Location: http://localhost/ComicsFinder/web/index.php?c=" . $input . "&submit=Search");
@@ -58,10 +58,10 @@ if(strlen($input) >= $min_length) {
                 '<div class="image"><img height="300" width="300" src="' .  $results['thumbnail'] . '.' . $results['extension'] . '"/></div>';
                 "<p class='col-md-8'>" .$results['description']. "</p>";           
                 ?></div><?php
+                
                 include '../html/comments.php';
-
                 print 
-                    '<form method="POST">' .
+                '<form method="POST">' .
                         '<input class="form-control" type="text" name="title" size="26" placeholder="Title"/>' . "\n<br />" .
                         '<textarea class="form-control" type="text" name="body" placeholder="Comment"></textarea>' . "\n<br />" .
                         '<input class="button" type="submit" name="submit" value="Write a review"/>' .
@@ -75,7 +75,8 @@ if(strlen($input) >= $min_length) {
                 while($reviews = mysqli_fetch_array($sql1)) {
                           ?><div class="comments"><?php 
                                 print "<h4>" .$reviews['title']. "</h4>".  
-                                    "<p>" .$reviews['body']. "</p>";
+                                    "<p>" .$reviews['body']. "</p>".
+                                    "<p>" . "Star rate:" .$reviews['stars']. "</p>";
                                    
                           ?></div></div><?php
                         } 
