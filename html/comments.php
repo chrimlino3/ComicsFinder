@@ -23,31 +23,50 @@
 		$(document).ready(function (){
 			resetStarColors();
 
-			$('.fa-star').on('click', function() {
+            if(localStorage.getItem('ratedIndex') != null);
+                setStars(parseInt(localStorage.getItem('ratedIndex')));
+
+			$('.fa-star').on('click', function () {
 				ratedIndex = parseInt($(this).data('index'));
+                localStorage.setItem('ratedIndex', ratedIndex);
+                saveToTheDB();
 			})
 
-		$('fa-star').mouseover(function () {
+		$('.fa-star').mouseover(function () {
 			resetStarColors();
-
 			var currentIndex = parseInt($(this).data('index'));
-
-			for (var i=0; i <= currentIndex; i++)
-				$('.fa-star:eq('+i+')').css('color', 'green');
+			setStars(currentIndex);
 		})
+
         $('.fa-star').mouseleave(function (){
 		    resetStarColors();
-
 		    if (ratedIndex != -1)
-			for (var i=0; i <= ratedIndex; i++)
-				$('.fa-star:eq('+i+')').css('color', 'red');
-		
+             setStars(ratedIndex);
 });
 
 	});
 
+    function saveToTheDB() {
+        $.ajax({
+            url: "index.php",
+            method: "POST",
+            dataType: "json",
+            data: {
+                save: 1,
+                ratedIndex: ratedIndex
+            }, success: function (r) {
+                
+            }
+        });
+    }
+
+    function setStars(max) {
+        for (var i=0; i <= ratedIndex; i++)
+				$('.fa-star:eq('+i+')').css('color', 'red'); 
+    }
+
 	function resetStarColors() {
-		$('.fa-star').css('color', 'black');
+		$('.fa-star').css('color', 'black'); // return the colors back black when is refresh
 	};
 
 </script>
