@@ -5,16 +5,24 @@ require_once(__DIR__ . '/../config.php');
 require_once(__DIR__ . '/../CSS/style.php');
 require_once(__DIR__ . '/../vendor/autoload.php');
 require_once(__DIR__ . '/../vendor/awps/font-awesome-php/src/load.php');
-// require_once(__DIR__ . '/../src/includes/stars.js');
 
 $min_length = 3;
 $input = !empty($_GET['c']) ? $_GET['c'] : '';
 $input = mysqli_real_escape_string($con, $input);
+/**
+ * Gets the average number from star ratings
+ */
+$sql = $con->query("SELECT marvelid FROM reviews");
+$numR = $sql->num_rows;
+$sql = $con->query("SELECT SUM(stars) AS total FROM reviews");
+$rData = $sql->fetch_array();
+$total = $rData['total'];
+
+$avg = $total / $numR;
+
 
 if(isset($_POST['submit'])) {
-    // print_r($_POST) . "\n";
     $title = !empty($_POST['title']) ? $_POST['title'] : '';
-    // print_r($title, true) . "\n";
     $title = mysqli_real_escape_string($con, $title);
     $body = !empty($_POST['body']) ? $_POST['body'] : '';
     $body = mysqli_real_escape_string($con, $body);
@@ -58,8 +66,9 @@ if(strlen($input) >= $min_length) {
                 '<div class="image"><img height="300" width="300" src="' .  $results['thumbnail'] . '.' . $results['extension'] . '"/></div>';
                 "<p class='col-md-8'>" .$results['description']. "</p>";           
                 ?></div><?php
-                
+            
                 include '../html/comments.php';
+                
                 print 
                 '<form method="POST">' .
                         '<input class="form-control" type="text" name="title" size="26" placeholder="Title"/>' . "\n<br />" .
@@ -76,7 +85,7 @@ if(strlen($input) >= $min_length) {
                           ?><div class="comments"><?php 
                                 print "<h4>" .$reviews['title']. "</h4>".  
                                     "<p>" .$reviews['body']. "</p>".
-                                    "<p>" . "Star rate:" .$reviews['stars']. "</p>";
+                                    "<p>" . "Star rate:" .round($avg). "</p>";
                                    
                           ?></div></div><?php
                         } 
