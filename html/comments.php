@@ -1,8 +1,67 @@
-<?php
-require_once(__DIR__ . '/../vendor/autoload.php');
-require_once(__DIR__ . '/../src/includes/db_conn.php');
-require_once(__DIR__ . '/../src/includes/star_interface.php');
-?>
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
+</head>
+<body>
+<div>
+	<i class="fa fa-star fa-2x" data-index="0"></i>
+	<i class="fa fa-star fa-2x" data-index="1"></i>
+	<i class="fa fa-star fa-2x" data-index="2"></i>
+	<i class="fa fa-star fa-2x" data-index="3"></i>
+	<i class="fa fa-star fa-2x" data-index="4"></i>
+</div>
+
+<script
+  src="http://code.jquery.com/jquery-2.2.4.min.js"
+  integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+  crossorigin="anonymous"></script>
+<script>
+  var ratedIndex = -1;
+
+		$(document).ready(function (){
+			resetStarColors();
+
+			$('.fa-star').on('click', function() {
+				ratedIndex = parseInt($(this).data('index'));
+			})
+
+		$('fa-star').mouseover(function () {
+			resetStarColors();
+
+			var currentIndex = parseInt($(this).data('index'));
+
+			for (var i=0; i <= currentIndex; i++)
+				$('.fa-star:eq('+i+')').css('color', 'green');
+		})
+        $('.fa-star').mouseleave(function (){
+		    resetStarColors();
+
+		    if (ratedIndex != -1)
+			for (var i=0; i <= ratedIndex; i++)
+				$('.fa-star:eq('+i+')').css('color', 'red');
+		
+});
+
+	});
+
+	function resetStarColors() {
+		$('.fa-star').css('color', 'black');
+	};
+
+</script>
+
+</body>
+</html>
+
+
+
+<!--
+// require_once(__DIR__ . '/../vendor/autoload.php');
+// require_once(__DIR__ . '/../src/includes/db_conn.php');
+// require_once(__DIR__ . '/../src/includes/star_interface.php');
+// ?>
 
 <!DOCTYPE html>
 <head>
@@ -38,4 +97,4 @@ require_once(__DIR__ . '/../src/includes/star_interface.php');
 </div>
 </div>
 
-</body>
+</body> -->
