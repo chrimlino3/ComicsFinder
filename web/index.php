@@ -26,10 +26,11 @@ if(isset($_POST['submit'])) {
     $title = mysqli_real_escape_string($con, $title);
     $body = !empty($_POST['body']) ? $_POST['body'] : '';
     $body = mysqli_real_escape_string($con, $body);
-    $stars = !empty($_POST['stars']) ? $_POST['stars'] : '';
-    $stars = mysqli_real_escape_string($con, $stars);
+    // $stars = !empty($_POST['stars']) ? $_POST['stars'] : '';
+    // $stars = mysqli_real_escape_string($con, $stars);
     $marvelid = !empty($_POST['marvelid']) ? $_POST['marvelid'] : ''; 
-    $insert = "INSERT INTO reviews (`title`, `body`, `marvelid`, `stars`) VALUES ('$title', '$body', '$marvelid', '$stars')";
+    $insert = "INSERT INTO reviews (`title`, `body`, `marvelid`) VALUES ('$title', '$body', '$marvelid')";
+    
     mysqli_query($con, $insert) or die('Error : ' . mysqli_error($con));
     print "Added: " . "title: " . $title . "body: " . $body . "marvelid: " . $marvelid . "\n";
     header("Location: http://localhost/ComicsFinder/web/index.php?c=" . $input . "&submit=Search");
