@@ -12,13 +12,13 @@ $input = mysqli_real_escape_string($con, $input);
 /**
  * Gets the average number from star ratings
  */
-$sql = $con->query("SELECT marvelid FROM reviews");
-$numR = $sql->num_rows;
-$sql = $con->query("SELECT SUM(stars) AS total FROM reviews");
-$rData = $sql->fetch_array();
-$total = $rData['total'];
+// $sql = $con->query("SELECT marvelid FROM reviews");
+// $numR = $sql->num_rows;
+// $sql = $con->query("SELECT SUM(stars) AS total FROM reviews");
+// $rData = $sql->fetch_array();
+// $total = $rData['total'];
 
-$avg = $total / $numR;
+// $avg = $total / $numR;
 
 
 if(isset($_POST['submit'])) {
@@ -36,7 +36,39 @@ if(isset($_POST['submit'])) {
     header("Location: http://localhost/ComicsFinder/web/index.php?c=" . $input . "&submit=Search");
 }
 
+if (isset($_POST['save'])) {
+    print "post" . print_r($_POST) . "\n";
+    $uID = $con->real_escape_string($_POST['uID']); //
+    print "uID: " . print_r($uID) . "\n";
+    $ratedIndex = $con->real_escape_string($_POST['ratedIndex']);
+    $ratedIndex++;
+    $marvelid = !empty($_POST['marvelid']) ? $_POST['marvelid'] : ''; 
+
+    if (!$uID) {
+        mysqli_query($con, "INSERT INTO stars (rateIndex, marvelid) VALUES ('$ratedIndex', '$marvelid')"); // if is a new user then insert the new rating in the db. marvelid needs to be accosiate with the ratedindex.
+        $sql = mysqli_query($con, "SELECT id FROM stars ORDER BY id DESC LIMIT 1"); // associate the id with the rating
+        $uData = $sql->fetch_assoc();
+        $uID = $uData['id'];
+    } else {
+        mysqli_query($con, "UPDATE stars SET rateIndex='$ratedIndex' WHERE id='$uID'"); // else update the existing stars if the user is the same
+
+        exit(json_encode(array('id' => $uID)));
+    }
+}
+
 ?>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
+</head>
+<body>
 <div class="container h-100">
     <form method="GET">
     
@@ -85,8 +117,8 @@ if(strlen($input) >= $min_length) {
                 while($reviews = mysqli_fetch_array($sql1)) {
                           ?><div class="comments"><?php 
                                 print "<h4>" .$reviews['title']. "</h4>".  
-                                    "<p>" .$reviews['body']. "</p>".
-                                    "<p>" . "Star rate:" .round($avg). "</p>";
+                                    "<p>" .$reviews['body']. "</p>";
+                                    // "<p>" . "Star rate:" .round($avg). "</p>";
                                    
                           ?></div></div><?php
                         } 
@@ -100,3 +132,6 @@ if(strlen($input) >= $min_length) {
         print "Minimum length is " . $min_length;
     }
 }
+?>
+</body>
+</html>

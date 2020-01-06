@@ -13,6 +13,7 @@ require_once(__DIR__ . '/../src/includes/db_conn.php');
 if (isset($_POST['save'])) {
     print "post" . print_r($_POST) . "\n";
     $uID = $con->real_escape_string($_POST['uID']); //
+    print "uID: " . print_r($uID);
     $ratedIndex = $con->real_escape_string($_POST['ratedIndex']);
     $ratedIndex++;
     // $marvelid = !empty($_POST['marvelid']) ? $_POST['marvelid'] : ''; 
