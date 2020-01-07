@@ -15,34 +15,30 @@ $input = mysqli_real_escape_string($con, $input);
  */
 // $sql = $con->query("SELECT marvelid FROM reviews");
 // $numR = $sql->num_rows;
-// $sql = $con->query("SELECT SUM(stars) AS total FROM reviews");
-// $rData = $sql->fetch_array();
-// $total = $rData['total'];
+// $sql =mysqli_query($con, "SELECT SUM(stars) AS total FROM reviews");
+// $total = $sql['total'];
 
 // $avg = $total / $numR;
 
 if (isset($_POST['save'])) {
-    // print "post" . print_r($_POST) . "\n";
+    print "post" . print_r($_POST) . "\n";
     $uID = $con->real_escape_string($_POST['uID']); //
-    // print "uID: " . print_r($uID) . "\n";
+    print "uID: " . print_r($uID) . "\n";
     $ratedIndex = $con->real_escape_string($_POST['ratedIndex']);
     $ratedIndex++;
+    $marvelid = !empty($_POST['marvelid']) ? $_POST['marvelid'] : ''; 
 
     if (!$uID) {
-        $insert = "INSERT INTO reviews (rateIndex) VALUES ('$ratedIndex')"; // if is a new user then insert the new rating in the db. marvelid needs to be accosiate with the ratedindex.
-        mysqli_query($con, $insert) or die('Error: ' . mysqli_error($con));
-        print "Added: " . "stars" . $ratedIndex . "\n";
-
-        $sql = mysqli_query($con, "SELECT id FROM reviews ORDER BY id DESC LIMIT 1"); // associate the id with the rating
+        mysqli_query($con, "INSERT INTO stars (rateIndex, marvelid) VALUES ('$ratedIndex', '$marvelid')"); // if is a new user then insert the new rating in the db. marvelid needs to be accosiate with the ratedindex.
+        $sql = mysqli_query($con, "SELECT id FROM stars ORDER BY id DESC LIMIT 1"); // associate the id with the rating
         $uData = $sql->fetch_assoc();
         $uID = $uData['id'];
-
     } else {
-        mysqli_query($con, "UPDATE reviews SET rateIndex='$ratedIndex' WHERE id='$uID'"); // else update the existing stars if the user is the same
+        mysqli_query($con, "UPDATE stars SET rateIndex='$ratedIndex' WHERE id='$uID'"); // else update the existing stars if the user is the same
 
         exit(json_encode(array('id' => $uID)));
     }
-}
+}  
 
 if(isset($_POST['submit'])) {
     $title = !empty($_POST['title']) ? $_POST['title'] : '';
@@ -102,7 +98,7 @@ if(strlen($input) >= $min_length) {
                 '<div class="image"><img height="300" width="300" src="' .  $results['thumbnail'] . '.' . $results['extension'] . '"/></div>';
                 "<p class='col-md-8'>" .$results['description']. "</p>";   
 
-                ?><div>
+                ?><div id='marvelid'>
                     <i class="fa fa-star fa-2x" data-index="0"></i>
                     <i class="fa fa-star fa-2x" data-index="1"></i>
                     <i class="fa fa-star fa-2x" data-index="2"></i>
@@ -157,9 +153,11 @@ if(strlen($input) >= $min_length) {
             setStars(parseInt(localStorage.getItem('ratedIndex'))); //saves in localStorage the number of stars. When refreshes it remembers it.
             uID = localStorage.getItem('uID');
         }
+
         $('.fa-star').on('click', function () {
             ratedIndex = parseInt($(this).data('index'));
             localStorage.setItem('ratedIndex', ratedIndex);
+            localStorage.setItem('uID', uID);
             saveToTheDB();
         })
 
