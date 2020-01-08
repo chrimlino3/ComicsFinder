@@ -34,14 +34,7 @@ if(isset($_POST['submit'])) {
     header("Location: http://localhost/ComicsFinder/web/index.php?c=" . $input . "&submit=Search");
 }
 
-$sql = $con->query("SELECT id FROM reviews");
-$numR = $sql->num_rows;
 
-$sql = $con->query("SELECT SUM(rateIndex) AS total FROM reviews");
-$rData = $sql->fetch_array();
-$total = $rData['total'];
-
-$avg = $total / $numR;
 
 ?>
 
@@ -85,16 +78,27 @@ if(strlen($input) >= $min_length) {
             print "<p><h3>" .$results['title']. "</h3></p>".
                 '<div class="image"><img height="300" width="300" src="' .  $results['thumbnail'] . '.' . $results['extension'] . '"/></div>';
                 "<p class='col-md-8'>" .$results['description']. "</p>";   
+
+                
+                $sql = $con->query("SELECT id FROM reviews");
+                $numR = $sql->num_rows;
+
+                $sql = $con->query("SELECT SUM(rateIndex) AS total FROM reviews");
+                $rData = $sql->fetch_array();
+                $total = $rData['total'];
+
+                $avg = $total / $numR;
                 
                 print 
                 '<form method="POST">' .
+                        '<input type="hidden" id="marvelid">' .
                         '<input type="hidden" id="Clicked" name="rateIndex" value=""></input>' .
                         '<i class="fa fa-star fa-2x" data-index="0" id="0"></i>' .
                         '<i class="fa fa-star fa-2x" data-index="1" id="1"></i>' .
                         '<i class="fa fa-star fa-2x" data-index="2" id="2"></i>' .
                         '<i class="fa fa-star fa-2x" data-index="3" id="3"></i>' .
                         '<i class="fa fa-star fa-2x" data-index="4" id="4"></i>' .
-                        "Rating:" . $avg .
+                        "Rating:" . round($avg) .
 
                         '<input class="form-control" type="text" name="title" size="26" placeholder="Title"/>' . "\n<br />" .
                         '<textarea class="form-control" type="text" name="body" placeholder="Comment"></textarea>' . "\n<br />" .
@@ -103,7 +107,7 @@ if(strlen($input) >= $min_length) {
                         '<input class="button "type="reset" value="Cancel">' .
                     '</form>';
             
-            
+
             $sql1 = mysqli_query($con, "SELECT * FROM reviews WHERE marvelid = '{$results['marvelid']}'");  
             print "<h3>". "Reviews" ."</h3>";
                 while($reviews = mysqli_fetch_array($sql1)) {
@@ -134,16 +138,18 @@ if(strlen($input) >= $min_length) {
   var ratedIndex = -1, uID = 0;
     $(document).ready(function (){  // every time the page load the stars are reseting. 
         resetStarColors();
-
+            
         if(localStorage.getItem('fa-star') != null) {
             setStars(parseInt(localStorage.getItem('fa-star'))); // saves in localStorage the number of stars. When refreshes it remembers it.
             uID = localStorage.getItem('uID');
         }
 
         $('.fa-star').on('click', function () {
+            $("#marvelid").each(function ( index ) {   // each comic needs to have a unique id in order to be clicked seperately. 
             ratedIndex = parseInt($(this).data('index'));
             var stars = $(this).attr('id');          
                 $('#Clicked').val(stars);
+        });
         });
 
         $('.fa-star').mouseleave(function (){
