@@ -13,32 +13,7 @@ $input = mysqli_real_escape_string($con, $input);
 /**
  * Gets the average number from star ratings
  */
-// $sql = $con->query("SELECT marvelid FROM reviews");
-// $numR = $sql->num_rows;
-// $sql =mysqli_query($con, "SELECT SUM(stars) AS total FROM reviews");
-// $total = $sql['total'];
 
-// $avg = $total / $numR;
-
-// if (isset($_POST['save'])) {
-//     print "post" . print_r($_POST) . "\n";
-//     $uID = $con->real_escape_string($_POST['uID']); //
-//     print "uID: " . print_r($uID) . "\n";
-//     $ratedIndex = $con->real_escape_string($_POST['ratedIndex']);
-//     $ratedIndex++;
-//     $marvelid = !empty($_POST['marvelid']) ? $_POST['marvelid'] : ''; 
-
-//     if (!$uID) {
-//         mysqli_query($con, "INSERT INTO stars (rateIndex, marvelid) VALUES ('$ratedIndex', '$marvelid')"); // if is a new user then insert the new rating in the db. marvelid needs to be accosiate with the ratedindex.
-//         $sql = mysqli_query($con, "SELECT id FROM stars ORDER BY id DESC LIMIT 1"); // associate the id with the rating
-//         $uData = $sql->fetch_assoc();
-//         $uID = $uData['id'];
-//     } else {
-//         mysqli_query($con, "UPDATE stars SET rateIndex='$ratedIndex' WHERE id='$uID'"); // else update the existing stars if the user is the same
-
-//         exit(json_encode(array('id' => $uID)));
-//     }
-// }  
 
 if(isset($_POST['submit'])) {
     print "post" . print_r($_POST) . "\n";
@@ -60,6 +35,24 @@ if(isset($_POST['submit'])) {
     print "Added: " . "title: " . $title . "body: " . $body . "marvelid: " . $marvelid . "\n";
     header("Location: http://localhost/ComicsFinder/web/index.php?c=" . $input . "&submit=Search");
 }
+
+$sql = $con->query("SELECT id FROM reviews");
+$numR = $sql->num_rows;
+
+$sql = $con->query("SELECT SUM(rateIndex) AS total FROM reviews");
+$rData = $sql->fetch_array();
+$total = $rData['total'];
+
+$avg = $total / $numR;
+
+print $avg;
+// $sql = $con->query("SELECT id FROM reviews");
+// $numR = $sql->num_rows;
+// $sql = "SELECT SUM(rateIndex) AS total FROM reviews";
+// $total = $sql['total'];
+// print "total: " . print_r($total, true);
+
+// $avg = $total / $numR;
 
 ?>
 
@@ -112,11 +105,13 @@ if(strlen($input) >= $min_length) {
                         '<i class="fa fa-star fa-2x" data-index="2" id="2"></i>' .
                         '<i class="fa fa-star fa-2x" data-index="3" id="3"></i>' .
                         '<i class="fa fa-star fa-2x" data-index="4" id="4"></i>' .
+
                         '<input class="form-control" type="text" name="title" size="26" placeholder="Title"/>' . "\n<br />" .
                         '<textarea class="form-control" type="text" name="body" placeholder="Comment"></textarea>' . "\n<br />" .
                         '<input class="button" type="submit" name="submit" value="Write a review"/>' .
                         '<input type="hidden" name="marvelid" value="' . $results['marvelid'] . '"/>' .
                         '<input class="button "type="reset" value="Cancel">' .
+                        print "Rating:" . $avg;
                     '</form>';
             
             
@@ -126,6 +121,7 @@ if(strlen($input) >= $min_length) {
                           ?><div class="comments"><?php 
                                 print "<h4>" .$reviews['title']. "</h4>".  
                                     "<p>" .$reviews['body']. "</p>";
+                                    "<p>". "Rating: " .$avg . "</p>";
                                    
                           ?></div></div><?php
                         } 
