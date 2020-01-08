@@ -1,5 +1,7 @@
 <?php
 
+// TODO: Rate each comic individually. Not it's just get's the first one and applies it in all. 
+
 require_once(__DIR__ . '/../src/includes/db_conn.php');
 require_once(__DIR__ . '/../config.php');
 require_once(__DIR__ . '/../CSS/style.php');
@@ -14,16 +16,12 @@ $input = mysqli_real_escape_string($con, $input);
  * Gets the average number from star ratings
  */
 
-
 if(isset($_POST['submit'])) {
     print "post" . print_r($_POST) . "\n";
     $title = !empty($_POST['title']) ? $_POST['title'] : '';
     $title = mysqli_real_escape_string($con, $title);
     $body = !empty($_POST['body']) ? $_POST['body'] : '';
     $body = mysqli_real_escape_string($con, $body);
-    // $ratedIndex = $con->real_escape_string($_POST['rateIndex']);
-    // print "ratedIndex" . print_r($ratedIndex) . "\n";
-    // $ratedIndex++;
     $ratedIndex = !empty($_POST['rateIndex']) ? $_POST['rateIndex'] : '';
     $ratedIndex = mysqli_real_escape_string($con, $ratedIndex);
     $ratedIndex++;
@@ -44,15 +42,6 @@ $rData = $sql->fetch_array();
 $total = $rData['total'];
 
 $avg = $total / $numR;
-
-print $avg;
-// $sql = $con->query("SELECT id FROM reviews");
-// $numR = $sql->num_rows;
-// $sql = "SELECT SUM(rateIndex) AS total FROM reviews";
-// $total = $sql['total'];
-// print "total: " . print_r($total, true);
-
-// $avg = $total / $numR;
 
 ?>
 
@@ -105,13 +94,13 @@ if(strlen($input) >= $min_length) {
                         '<i class="fa fa-star fa-2x" data-index="2" id="2"></i>' .
                         '<i class="fa fa-star fa-2x" data-index="3" id="3"></i>' .
                         '<i class="fa fa-star fa-2x" data-index="4" id="4"></i>' .
+                        "Rating:" . $avg .
 
                         '<input class="form-control" type="text" name="title" size="26" placeholder="Title"/>' . "\n<br />" .
                         '<textarea class="form-control" type="text" name="body" placeholder="Comment"></textarea>' . "\n<br />" .
                         '<input class="button" type="submit" name="submit" value="Write a review"/>' .
                         '<input type="hidden" name="marvelid" value="' . $results['marvelid'] . '"/>' .
                         '<input class="button "type="reset" value="Cancel">' .
-                        print "Rating:" . $avg;
                     '</form>';
             
             
@@ -151,10 +140,10 @@ if(strlen($input) >= $min_length) {
             uID = localStorage.getItem('uID');
         }
 
-            $('.fa-star').on('click', function () {
-                ratedIndex = parseInt($(this).data('index'));
-                var ButtonID = $(this).attr('id');
-                 $('#Clicked').val(ButtonID);
+        $('.fa-star').on('click', function () {
+            ratedIndex = parseInt($(this).data('index'));
+            var stars = $(this).attr('id');          
+                $('#Clicked').val(stars);
         });
 
         $('.fa-star').mouseleave(function (){
