@@ -49,14 +49,12 @@ if(isset($_POST['submit'])) {
     // $ratedIndex = $con->real_escape_string($_POST['rateIndex']);
     // print "ratedIndex" . print_r($ratedIndex) . "\n";
     // $ratedIndex++;
-    $stars = !empty($_POST['stars']) ? $_POST['stars'] : '';
-    $stars++;
+    $ratedIndex = !empty($_POST['rateIndex']) ? $_POST['rateIndex'] : '';
+    $ratedIndex = mysqli_real_escape_string($con, $ratedIndex);
+    $ratedIndex++;
 
-
-    // $stars = !empty($_POST['stars']) ? $_POST['stars'] : '';
-    // $stars = mysqli_real_escape_string($con, $stars);
     $marvelid = !empty($_POST['marvelid']) ? $_POST['marvelid'] : ''; 
-    $insert = "INSERT INTO reviews (`title`, `body`, `marvelid`, `rateIndex`) VALUES ('$title', '$body', '$marvelid', '$stars')";
+    $insert = "INSERT INTO reviews (`title`, `body`, `marvelid`, `rateIndex`) VALUES ('$title', '$body', '$marvelid', '$ratedIndex')";
     
     mysqli_query($con, $insert) or die('Error : ' . mysqli_error($con));
     print "Added: " . "title: " . $title . "body: " . $body . "marvelid: " . $marvelid . "\n";
@@ -106,21 +104,14 @@ if(strlen($input) >= $min_length) {
                 '<div class="image"><img height="300" width="300" src="' .  $results['thumbnail'] . '.' . $results['extension'] . '"/></div>';
                 "<p class='col-md-8'>" .$results['description']. "</p>";   
                 
-                // Loop through id and apply in each one of them post. In each fa-star execute highlight on click etc. 
-
-   
-
-                // insert stars and form at the same post. 
-
                 print 
                 '<form method="POST">' .
-                        '<div id=marvelid_' . $results['marvelid'] . '>' .
-                        '<i class="fa fa-star fa-2x" name="stars" data-index="0"></i>' .
-                        '<i class="fa fa-star fa-2x" name="stars" data-index="1"></i>' .
-                        '<i class="fa fa-star fa-2x" name="stars" data-index="2"></i>' .
-                        '<i class="fa fa-star fa-2x" name="stars" data-index="3"></i>' .
-                        '<i class="fa fa-star fa-2x" name="stars" data-index="4"></i>' .
-                    
+                        '<input type="hidden" id="Clicked" name="rateIndex" value=""></input>' .
+                        '<i class="fa fa-star fa-2x" data-index="0" id="0"></i>' .
+                        '<i class="fa fa-star fa-2x" data-index="1" id="1"></i>' .
+                        '<i class="fa fa-star fa-2x" data-index="2" id="2"></i>' .
+                        '<i class="fa fa-star fa-2x" data-index="3" id="3"></i>' .
+                        '<i class="fa fa-star fa-2x" data-index="4" id="4"></i>' .
                         '<input class="form-control" type="text" name="title" size="26" placeholder="Title"/>' . "\n<br />" .
                         '<textarea class="form-control" type="text" name="body" placeholder="Comment"></textarea>' . "\n<br />" .
                         '<input class="button" type="submit" name="submit" value="Write a review"/>' .
@@ -135,7 +126,6 @@ if(strlen($input) >= $min_length) {
                           ?><div class="comments"><?php 
                                 print "<h4>" .$reviews['title']. "</h4>".  
                                     "<p>" .$reviews['body']. "</p>";
-                                    // "<p>" . "Star rate:" .round($avg). "</p>";
                                    
                           ?></div></div><?php
                         } 
@@ -159,34 +149,17 @@ if(strlen($input) >= $min_length) {
   var ratedIndex = -1, uID = 0;
     $(document).ready(function (){  // every time the page load the stars are reseting. 
         resetStarColors();
-        
-        // $('marvelid').each(function (k, v) {
-        //             console.log('marvelid' + data-index + ':' + $(this).attr('id'));
-        //         });
-                
 
         if(localStorage.getItem('fa-star') != null) {
             setStars(parseInt(localStorage.getItem('fa-star'))); // saves in localStorage the number of stars. When refreshes it remembers it.
             uID = localStorage.getItem('uID');
         }
 
-        // $('#marvelid').each(function (index) {
-        //     var value = this.value;
-
-        // })
             $('.fa-star').on('click', function () {
                 ratedIndex = parseInt($(this).data('index'));
-                localStorage.setItem('ratedIndex', ratedIndex); // On click save on localstorage and also setStars.
-                setStars(ratedIndex);
-                localStorage.setItem('uID', uID);
-                saveToTheDB();
+                var ButtonID = $(this).attr('id');
+                 $('#Clicked').val(ButtonID);
         });
-
-		// $('.fa-star').mouseover(function () {
-		// 	resetStarColors();
-		// 	var currentIndex = parseInt($(this).data('index'));
-		// 	setStars(currentIndex);
-		// })
 
         $('.fa-star').mouseleave(function (){
 		    resetStarColors();
@@ -195,22 +168,6 @@ if(strlen($input) >= $min_length) {
         });
 
 	});
-
-    function saveToTheDB() {
-        $.ajax({
-            url: "index.php",
-            method: "POST",
-            dataType: "json",
-            data: {
-                save: 1,
-                uID: uID,
-                ratedIndex: ratedIndex
-            }, success: function (r) {
-                uID = r.id
-                localStorage.setItem('uID', uID);
-            }
-        });
-    }
 
     function setStars(max) {
         for (var i=0; i <= ratedIndex; i++)
