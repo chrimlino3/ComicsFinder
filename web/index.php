@@ -90,8 +90,7 @@ if(strlen($input) >= $min_length) {
                 $avg = $total / $numR;
                 
                 print 
-                '<form method="POST">' .
-                        '<input type="hidden" id="marvelid">' .
+                '<div id="marvelid"><form method="POST"></div>' .
                         '<input type="hidden" id="Clicked" name="rateIndex" value=""></input>' .
                         '<i class="fa fa-star fa-2x" data-index="0" id="0"></i>' .
                         '<i class="fa fa-star fa-2x" data-index="1" id="1"></i>' .
@@ -144,13 +143,22 @@ if(strlen($input) >= $min_length) {
             uID = localStorage.getItem('uID');
         }
 
-        $('.fa-star').on('click', function () {
-            $("#marvelid").each(function ( index ) {   // each comic needs to have a unique id in order to be clicked seperately. 
-            ratedIndex = parseInt($(this).data('index'));
-            var stars = $(this).attr('id');          
-                $('#Clicked').val(stars);
-        });
-        });
+        var allDiv = $("#marvelid");
+
+        for (var i=0; i<allDiv.length; i++) {
+        }
+            $('fa-star').on('click', function () {
+                ratedIndex = parseInt($(this).data('index'));
+                var stars = $(this).attr('id');          
+                    $('#Clicked').val(stars);
+            });
+        
+        
+        $('#Clicked').each(function (index, element) { // 0 object HTMLInputElement]
+            alert(element);
+        });                                                            // each comic needs to have a unique id in order to be clicked seperately.
+
+       
 
         $('.fa-star').mouseleave(function (){
 		    resetStarColors();
