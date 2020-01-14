@@ -34,10 +34,7 @@ if(isset($_POST['submit'])) {
     header("Location: http://localhost/ComicsFinder/web/index.php?c=" . $input . "&submit=Search");
 }
 
-
-
 ?>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -69,35 +66,36 @@ if(strlen($input) >= $min_length) {
     $raw_results = mysqli_query($con, "SELECT `title`, `issue`, `description`, `thumbnail`, `characters`, `thumbnail`, `extension`, `marvelid` 
                                             FROM comics Where (`characters` LIKE '%".$input."%')");
 
-
+    $numberOfColumns = 3;
+    $bootstrapColWidth = 12 / $numberOfColumns;
     if (mysqli_num_rows($raw_results) > 0){
+        echo '<div class="row">';
         while($results = mysqli_fetch_array($raw_results)) {
-            ?>
-            <div class="background">
-            <div class="results" ><?php 
-            print "<p><h3>" .$results['title']. "</h3></p>".
+            print 
+            '<div class="col-md-' .$bootstrapColWidth.'" >' .
+            '<p><h3>' .$results['title']. '</h3></p>' .
                 '<div class="image"><img height="300" width="300" src="' .  $results['thumbnail'] . '.' . $results['extension'] . '"/></div>';
-                "<p class='col-md-8'>" .$results['description']. "</p>";   
-
-                
+                "<p class='col-md-8'>" . $results['description']. "</p>";
+            
                 $sql = $con->query("SELECT id FROM reviews");
                 $numR = $sql->num_rows;
 
                 $sql = $con->query("SELECT SUM(rateIndex) AS total FROM reviews");
                 $rData = $sql->fetch_array();
                 $total = $rData['total'];
-
-                $avg = $total / $numR;
-                
+                if ($total != 0) {
+                   $avg = $total / $numR;
+                }
                 print 
-                '<div id="marvelid"><form method="POST"></div>' .
-                        '<input type="hidden" id="Clicked" name="rateIndex" value=""></input>' .
+                    'div class="stars"'
+                    '<form method="POST">' .
+                        '<input type="hidden" id="Clicked" value=""></input>' .
                         '<i class="fa fa-star fa-2x" data-index="0" id="0"></i>' .
                         '<i class="fa fa-star fa-2x" data-index="1" id="1"></i>' .
                         '<i class="fa fa-star fa-2x" data-index="2" id="2"></i>' .
                         '<i class="fa fa-star fa-2x" data-index="3" id="3"></i>' .
                         '<i class="fa fa-star fa-2x" data-index="4" id="4"></i>' .
-                        "Rating:" . round($avg) .
+                        // "Rating:" . round($avg) .
 
                         '<input class="form-control" type="text" name="title" size="26" placeholder="Title"/>' . "\n<br />" .
                         '<textarea class="form-control" type="text" name="body" placeholder="Comment"></textarea>' . "\n<br />" .
@@ -117,8 +115,9 @@ if(strlen($input) >= $min_length) {
                                    
                           ?></div></div><?php
                         } 
-        
-                    }   
+                        echo '</div>';
+                    }  
+                    echo '</div>';
     } else {
         print "No results";
     }   
@@ -133,7 +132,6 @@ if(strlen($input) >= $min_length) {
 <script
   src="http://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
 <script>
-
   var ratedIndex = -1, uID = 0;
     $(document).ready(function (){  // every time the page load the stars are reseting. 
         resetStarColors();
@@ -143,34 +141,23 @@ if(strlen($input) >= $min_length) {
             uID = localStorage.getItem('uID');
         }
 
-        var allDiv = $("#marvelid");
+        $('fa-star').on('click', function () {
+            ratedIndex = parseInt($(this).data('index'));
+            var stars = $(this).attr('id');          
+            $('#Clicked').val(stars);
+        });
 
-        for (var i=0; i<allDiv.length; i++) {
-        }
-            $('fa-star').on('click', function () {
-                ratedIndex = parseInt($(this).data('index'));
-                var stars = $(this).attr('id');          
-                    $('#Clicked').val(stars);
-            });
-        
-        
-        $('#Clicked').each(function (index, element) { // 0 object HTMLInputElement]
-            alert(element);
-        });                                                            // each comic needs to have a unique id in order to be clicked seperately.
-
-       
 
         $('.fa-star').mouseleave(function (){
 		    resetStarColors();
 		    if (ratedIndex != -1)
-             setStars(ratedIndex);  // Changing the star rating. 
+            setStars(ratedIndex);  // Changing the star rating. 
         });
-
-	});
+    });
 
     function setStars(max) {
         for (var i=0; i <= ratedIndex; i++)
-				$('.fa-star:eq('+i+')').css('color', 'red'); 
+			$('.fa-star:eq('+i+')').css('color', 'red'); 
     }
 
 	function resetStarColors() {

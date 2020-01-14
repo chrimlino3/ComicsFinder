@@ -121,3 +121,28 @@ p {
 
 </style>
  -->
+ <style>
+
+.container {
+    height: 400px;
+    display: cover;
+    background-image: url('https://images.unsplash.com/photo-1505489435671-80a165c60816?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=831&q=80');
+    background-size: cover;
+    background-position: center;
+    opacity: 90%;
+}
+
+ .searchbar {
+    display: flex;
+    justify-content: left;
+    padding: 10px;
+}
+
+.row {
+
+}
+
+.stars {
+
+}
+</style>
