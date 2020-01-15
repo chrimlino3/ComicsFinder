@@ -87,19 +87,20 @@ if(strlen($input) >= $min_length) {
             }
             print
                     '<form method="POST">' .
-                        '<input type="hidden" id="Clicked" value=""></input>' .
-                        '<i class="fa fa-star fa-2x" data-index="0" id="0"></i>' .
+                        
+                        '<div class="comments"><input class="form-control" type="text" name="title" size="26" placeholder="Title" style="width: 290px"/>' . "\n<br />" .
+                        '<textarea class="form-control" type="text" name="body" placeholder="Comment" style="width: 290px"></textarea>' . "\n<br /></div>" .
+                        '<div class="stars"><i class="fa fa-star fa-2x" data-index="0" id="0"></i>' .
                         '<i class="fa fa-star fa-2x" data-index="1" id="1"></i>' .
                         '<i class="fa fa-star fa-2x" data-index="2" id="2"></i>' .
                         '<i class="fa fa-star fa-2x" data-index="3" id="3"></i>' .
-                        '<i class="fa fa-star fa-2x" data-index="4" id="4"></i>' .
-                        // "Rating:" . round($avg) .
+                        '<i class="fa fa-star fa-2x" data-index="4" id="4"></i></div>' .
 
-                        '<input class="form-control" type="text" name="title" size="26" placeholder="Title" style="width: 290px"/>' . "\n<br />" .
-                        '<textarea class="form-control" type="text" name="body" placeholder="Comment" style="width: 290px"></textarea>' . "\n<br />" .
-                        '<input class="button" type="submit" name="submit" value="Write a review"/>' .
+                        '<input class="btn btn-danger" type="submit" name="submit" value="Post your review"/>' .
                         '<input type="hidden" name="marvelid" value="' . $results['marvelid'] . '"/>' .
-                        '<input class="button "type="reset" value="Cancel">' .
+                        '<input class="btn btn-light "type="reset" value="Clear">' .
+                        '<input type="hidden" id="Clicked" value=""></input>' .
+                        // "Rating:" . round($avg) .
                     '</form>';
             
 
@@ -147,11 +148,11 @@ if(strlen($input) >= $min_length) {
 
     function setStars(max) {
         for (var i=0; i <= ratedIndex; i++)
-			$('.fa-star:eq('+i+')').css('color', 'red'); 
+			$('.fa-star:eq('+i+')').css('color', '#666600'); 
     }
 
 	function resetStarColors() {
-		$('.fa-star').css('color', 'black'); // return the colors back black when is refresh
+		$('.fa-star').css('color', '#CCCC00'); // return the colors back black when is refresh
 	};
 
 </script>
