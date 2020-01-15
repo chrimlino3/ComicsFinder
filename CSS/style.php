@@ -132,6 +132,10 @@ p {
     opacity: 90%;
 }
 
+h3 {
+    
+}
+
  .searchbar {
     display: flex;
     justify-content: left;
@@ -154,4 +158,16 @@ p {
   border-radius: 5px; /* 5px rounded corners */
 }
 
+.stars {
+    margin-top: 2px;
+    padding-bottom: 2px;
+}
+
+.comments {
+   padding-top: 5px;
+   margin-bottom: -16px;
+
+.button {
+    text-decoration: none;
+}
 </style>
