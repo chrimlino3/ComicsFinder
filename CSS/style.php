@@ -126,7 +126,7 @@ p {
 .container {
     height: 400px;
     display: cover;
-    background-image: url('https://images.unsplash.com/photo-1505489435671-80a165c60816?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=831&q=80');
+    background-image: url('https://images.unsplash.com/photo-1556707752-481d500a2c58?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80');
     background-size: cover;
     background-position: center;
     opacity: 90%;
@@ -138,11 +138,20 @@ p {
     padding: 10px;
 }
 
-.row {
-
+.title {
+    color: white;
+    font-family: 'Alata', sans-serif;
 }
 
-.stars {
-
+.subtitle {
+    color: grey;
+    font-family: 'Alata', sans-serif;
 }
+
+.card {
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  transition: 0.3s;
+  border-radius: 5px; /* 5px rounded corners */
+}
+
 </style>

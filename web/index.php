@@ -25,10 +25,8 @@ if(isset($_POST['submit'])) {
     $ratedIndex = !empty($_POST['rateIndex']) ? $_POST['rateIndex'] : '';
     $ratedIndex = mysqli_real_escape_string($con, $ratedIndex);
     $ratedIndex++;
-
     $marvelid = !empty($_POST['marvelid']) ? $_POST['marvelid'] : ''; 
     $insert = "INSERT INTO reviews (`title`, `body`, `marvelid`, `rateIndex`) VALUES ('$title', '$body', '$marvelid', '$ratedIndex')";
-    
     mysqli_query($con, $insert) or die('Error : ' . mysqli_error($con));
     print "Added: " . "title: " . $title . "body: " . $body . "marvelid: " . $marvelid . "\n";
     header("Location: http://localhost/ComicsFinder/web/index.php?c=" . $input . "&submit=Search");
@@ -44,14 +42,15 @@ if(isset($_POST['submit'])) {
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
+    <link href="https://fonts.googleapis.com/css?family=Alata&display=swap" rel="stylesheet"> 
 </head>
 <body>
-<div class="container h-100">
+<div class="container">
     <form method="GET">
     
         <div class="d-flex justify-content-center h-100">
-            <h2>Browse your favorite superhero stories</h2>
-            <h5>Hulk, X-Men, Wolverine, Wasp (Ultimate), Spider-Man</h5>
+            <div class="title"><h2>Browse your favorite superhero stories</h2></div>
+            <div class="subtitle"><h5>Hulk, X-Men, Wolverine, Wasp (Ultimate), Spider-Man</h5></div>
             <div class="searchbar">
                 <input class="search_input" type="text" name="c" placeholder="3-D Man" />
                 <input class="button" type="submit" name= "submit" value="Search"/>
@@ -73,21 +72,20 @@ if(strlen($input) >= $min_length) {
         while($results = mysqli_fetch_array($raw_results)) {
             print 
             '<div class="col-md-' .$bootstrapColWidth.'" >' .
-            '<p><h3>' .$results['title']. '</h3></p>' .
-                '<div class="image"><img height="300" width="300" src="' .  $results['thumbnail'] . '.' . $results['extension'] . '"/></div>';
-                "<p class='col-md-8'>" . $results['description']. "</p>";
+            '<div class="subtitle"><p><h3>' .$results['title']. '</h3></p></div>' .
+            '<div class="image"><img height="300" width="300" src="' .  $results['thumbnail'] . '.' . $results['extension'] . '"/></div>';
+            "<p class='col-md-8'>" . $results['description']. "</p>";
             
-                $sql = $con->query("SELECT id FROM reviews");
-                $numR = $sql->num_rows;
-
-                $sql = $con->query("SELECT SUM(rateIndex) AS total FROM reviews");
-                $rData = $sql->fetch_array();
-                $total = $rData['total'];
-                if ($total != 0) {
-                   $avg = $total / $numR;
-                }
-                print 
-                    'div class="stars"'
+            $sql = $con->query("SELECT id FROM reviews");
+            $numR = $sql->num_rows;
+            
+            $sql = $con->query("SELECT SUM(rateIndex) AS total FROM reviews");
+            $rData = $sql->fetch_array();
+            $total = $rData['total'];
+            if ($total != 0) {
+                $avg = $total / $numR;
+            }
+            print
                     '<form method="POST">' .
                         '<input type="hidden" id="Clicked" value=""></input>' .
                         '<i class="fa fa-star fa-2x" data-index="0" id="0"></i>' .
@@ -97,24 +95,16 @@ if(strlen($input) >= $min_length) {
                         '<i class="fa fa-star fa-2x" data-index="4" id="4"></i>' .
                         // "Rating:" . round($avg) .
 
-                        '<input class="form-control" type="text" name="title" size="26" placeholder="Title"/>' . "\n<br />" .
-                        '<textarea class="form-control" type="text" name="body" placeholder="Comment"></textarea>' . "\n<br />" .
+                        '<input class="form-control" type="text" name="title" size="26" placeholder="Title" style="width: 290px"/>' . "\n<br />" .
+                        '<textarea class="form-control" type="text" name="body" placeholder="Comment" style="width: 290px"></textarea>' . "\n<br />" .
                         '<input class="button" type="submit" name="submit" value="Write a review"/>' .
                         '<input type="hidden" name="marvelid" value="' . $results['marvelid'] . '"/>' .
                         '<input class="button "type="reset" value="Cancel">' .
                     '</form>';
             
 
-            $sql1 = mysqli_query($con, "SELECT * FROM reviews WHERE marvelid = '{$results['marvelid']}'");  
-            print "<h3>". "Reviews" ."</h3>";
-                while($reviews = mysqli_fetch_array($sql1)) {
-                          ?><div class="comments"><?php 
-                                print "<h4>" .$reviews['title']. "</h4>".  
-                                    "<p>" .$reviews['body']. "</p>";
-                                    "<p>". "Rating: " .$avg . "</p>";
-                                   
-                          ?></div></div><?php
-                        } 
+
+            print '<a href="reviews.php?marvelid=' . $results['marvelid'] . '">Go to the reviews</a>';
                         echo '</div>';
                     }  
                     echo '</div>';
@@ -141,9 +131,9 @@ if(strlen($input) >= $min_length) {
             uID = localStorage.getItem('uID');
         }
 
-        $('fa-star').on('click', function () {
+        $('.fa-star').on('click', function (){
             ratedIndex = parseInt($(this).data('index'));
-            var stars = $(this).attr('id');          
+            var stars = $(this).attr('id');
             $('#Clicked').val(stars);
         });
 
