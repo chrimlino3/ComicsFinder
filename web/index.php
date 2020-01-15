@@ -83,19 +83,20 @@ if(strlen($input) >= $min_length) {
             }
             print
                     '<form method="POST">' .
-                        
-                        '<div class="comments"><input class="form-control" type="text" name="title" size="26" placeholder="Title" style="width: 290px"/>' . "\n<br />" .
-                        '<textarea class="form-control" type="text" name="body" placeholder="Comment" style="width: 290px"></textarea>' . "\n<br /></div>" .
-                        '<div class="stars"><i class="fa fa-star fa-2x" data-index="0" id="0"></i>' .
+                        '<input type="hidden" id="Clicked" value=""></input>' .
+                        '<i class="fa fa-star fa-2x" data-index="0" id="0"></i>' .
                         '<i class="fa fa-star fa-2x" data-index="1" id="1"></i>' .
                         '<i class="fa fa-star fa-2x" data-index="2" id="2"></i>' .
                         '<i class="fa fa-star fa-2x" data-index="3" id="3"></i>' .
-                        '<i class="fa fa-star fa-2x" data-index="4" id="4"></i></div>' .
-
+                        '<i class="fa fa-star fa-2x" data-index="4" id="4"></i>' .
+                        '<div class="comments">
+                            <input class="form-control" type="text" name="title" size="26" placeholder="Title" style="width: 290px"/>' . "\n<br />" .
+                            '<textarea class="form-control" type="text" name="body" placeholder="Comment" style="width: 290px"></textarea>' . "\n<br />
+                        </div>" .
+                    
                         '<input class="btn btn-danger" type="submit" name="submit" value="Post your review"/>' .
                         '<input type="hidden" name="marvelid" value="' . $results['marvelid'] . '"/>' .
                         '<input class="btn btn-light "type="reset" value="Clear">' .
-                        '<input type="hidden" id="Clicked" value=""></input>' .
                         // "Rating:" . round($avg) .
                     '</form>';
             
