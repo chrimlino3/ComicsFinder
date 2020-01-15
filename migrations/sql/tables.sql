@@ -7,6 +7,7 @@ CREATE TABLE IF NOT EXISTS `reviews` (
     `title` VARCHAR(45) NOT NULL, 
     `body` VARCHAR(255) NOT NULL,
     `marvelid` INT(11) NOT NULL,
+    `rateIndex` INT(11) NOT NULL,
     PRIMARY KEY(id)
 );
 
