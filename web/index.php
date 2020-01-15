@@ -12,10 +12,6 @@ $min_length = 3;
 $input = !empty($_GET['c']) ? $_GET['c'] : '';
 $input = mysqli_real_escape_string($con, $input);
 
-/**
- * Gets the average number from star ratings
- */
-
 if(isset($_POST['submit'])) {
     print "post" . print_r($_POST) . "\n";
     $title = !empty($_POST['title']) ? $_POST['title'] : '';
@@ -136,15 +132,32 @@ if(strlen($input) >= $min_length) {
             ratedIndex = parseInt($(this).data('index'));
             var stars = $(this).attr('id');
             $('#Clicked').val(stars);
+            localStorage.setItem('ratedIndex', ratedIndex);
+            saveToDB();
         });
 
 
         $('.fa-star').mouseleave(function (){
 		    resetStarColors();
 		    if (ratedIndex != -1)
-            setStars(ratedIndex);  // Changing the star rating. 
+                setStars(ratedIndex);  // Changing the star rating. 
         });
     });
+        function saveToDB() {
+            $.ajax({
+                url: "index.php",
+                method: "POST",
+                dataType: 'json',
+                data: {
+                    save: 1,
+                    ratedIndex: this.ratedIndex
+                }, success: function (r) {
+                    content.html(response);
+                }
+
+            });
+        }
+  
 
     function setStars(max) {
         for (var i=0; i <= ratedIndex; i++)
@@ -153,7 +166,7 @@ if(strlen($input) >= $min_length) {
 
 	function resetStarColors() {
 		$('.fa-star').css('color', '#CCCC00'); // return the colors back black when is refresh
-	};
+	}
 
 </script>
 
