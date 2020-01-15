@@ -7,4 +7,4 @@ An app which allows the user to search his favorite superheroes and comics.
 Run 
 * http://localhost/ComicsFinder/web/index.php?c=&submit=Search in browser to search your favorite superhero stories
 
-![screenshot](marvel.png)
+![screenshot](marvel2.png)
