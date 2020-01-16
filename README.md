@@ -1,4 +1,4 @@
-# Find Superhero Comics https://github.com/chrimlino3/ComicsFinder
+# Find Superhero Comics 
 An app which allows the user to search, comment, and rate his favorite superheroes and comics. 
 
 # Usage
@@ -9,3 +9,5 @@ Run
 * http://localhost/ComicsFinder/web/index.php?c=&submit=Search in browser to search your favorite superhero stories
 
 ![screenshot](marvel2.png.png)
+
+Code Source [https://github.com/chrimlino3/ComicsFinder]
