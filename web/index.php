@@ -12,10 +12,6 @@ $min_length = 3;
 $input = !empty($_GET['c']) ? $_GET['c'] : '';
 $input = mysqli_real_escape_string($con, $input);
 
-/**
- * Gets the average number from star ratings
- */
-
 if(isset($_POST['submit'])) {
     print "post" . print_r($_POST) . "\n";
     $title = !empty($_POST['title']) ? $_POST['title'] : '';
@@ -66,6 +62,7 @@ if(strlen($input) >= $min_length) {
                                             FROM comics Where (`characters` LIKE '%".$input."%')");
 
     $numberOfColumns = 3;
+    $rowCount = 0;
     $bootstrapColWidth = 12 / $numberOfColumns;
     if (mysqli_num_rows($raw_results) > 0){
         echo '<div class="row">';
@@ -75,6 +72,9 @@ if(strlen($input) >= $min_length) {
             '<div class="subtitle"><p><h3>' .$results['title']. '</h3></p></div>' .
             '<div class="image"><img height="300" width="300" src="' .  $results['thumbnail'] . '.' . $results['extension'] . '"/></div>';
             "<p class='col-md-8'>" . $results['description']. "</p>";
+
+            $rowCount++;
+            if($rowCount % $numberOfColumns == 0) echo '</div><div class="row">';
             
             $sql = $con->query("SELECT id FROM reviews");
             $numR = $sql->num_rows;
@@ -87,26 +87,28 @@ if(strlen($input) >= $min_length) {
             }
             print
                     '<form method="POST">' .
-                        
-                        '<div class="comments"><input class="form-control" type="text" name="title" size="26" placeholder="Title" style="width: 290px"/>' . "\n<br />" .
-                        '<textarea class="form-control" type="text" name="body" placeholder="Comment" style="width: 290px"></textarea>' . "\n<br /></div>" .
-                        '<div class="stars"><i class="fa fa-star fa-2x" data-index="0" id="0"></i>' .
+                        '<div class="stars"><input type="hidden" id="Clicked" value=""></input>' .
+                        '<i class="fa fa-star fa-2x" data-index="0" id="0"></i>' .
                         '<i class="fa fa-star fa-2x" data-index="1" id="1"></i>' .
                         '<i class="fa fa-star fa-2x" data-index="2" id="2"></i>' .
                         '<i class="fa fa-star fa-2x" data-index="3" id="3"></i>' .
                         '<i class="fa fa-star fa-2x" data-index="4" id="4"></i></div>' .
-
+                        '<div class="comments">
+                            <input class="form-control" type="text" name="title" size="26" placeholder="Title" style="width: 290px"/>' . "\n<br />" .
+                            '<textarea class="form-control" type="text" name="body" placeholder="Comment" style="width: 290px"></textarea>' . "\n<br />
+                        </div>" .
+                    
                         '<input class="btn btn-danger" type="submit" name="submit" value="Post your review"/>' .
                         '<input type="hidden" name="marvelid" value="' . $results['marvelid'] . '"/>' .
-                        '<input class="btn btn-light "type="reset" value="Clear">' .
-                        '<input type="hidden" id="Clicked" value=""></input>' .
-                        // "Rating:" . round($avg) .
-                    '</form>';
+                        '<input class="btn btn-light "type="reset" value="Clear">';
+                        if(!empty($avg)) {
+                            echo "Score:" . round($avg);
+                        }
+                    print '</form>';
             
+                    print '<a href="reviews.php?marvelid=' . $results['marvelid'] . '">Go to the reviews</a>';
 
-
-            print '<a href="reviews.php?marvelid=' . $results['marvelid'] . '">Go to the reviews</a>';
-                        echo '</div>';
+                    echo '</div>';
                     }  
                     echo '</div>';
     } else {
@@ -136,15 +138,32 @@ if(strlen($input) >= $min_length) {
             ratedIndex = parseInt($(this).data('index'));
             var stars = $(this).attr('id');
             $('#Clicked').val(stars);
+            localStorage.setItem('ratedIndex', ratedIndex);
+            saveToDB();
         });
 
 
         $('.fa-star').mouseleave(function (){
 		    resetStarColors();
 		    if (ratedIndex != -1)
-            setStars(ratedIndex);  // Changing the star rating. 
+                setStars(ratedIndex);  // Changing the star rating. 
         });
     });
+        function saveToDB() {
+            $.ajax({
+                url: "index.php",
+                method: "POST",
+                dataType: 'json',
+                data: {
+                    save: 1,
+                    ratedIndex: ratedIndex
+                }, success: function (r) {
+                    content.html(response);
+                }
+
+            });
+        }
+  
 
     function setStars(max) {
         for (var i=0; i <= ratedIndex; i++)
@@ -153,7 +172,7 @@ if(strlen($input) >= $min_length) {
 
 	function resetStarColors() {
 		$('.fa-star').css('color', '#CCCC00'); // return the colors back black when is refresh
-	};
+	}
 
 </script>
 
