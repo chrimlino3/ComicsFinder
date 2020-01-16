@@ -5,8 +5,6 @@
 require_once(__DIR__ . '/../src/includes/db_conn.php');
 require_once(__DIR__ . '/../config.php');
 require_once(__DIR__ . '/../CSS/style.php');
-require_once(__DIR__ . '/../vendor/autoload.php');
-require_once(__DIR__ . '/../vendor/awps/font-awesome-php/src/load.php');
 
 $min_length = 3;
 $input = !empty($_GET['c']) ? $_GET['c'] : '';
