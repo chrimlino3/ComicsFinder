@@ -22,7 +22,7 @@ if(isset($_POST['submit'])) {
     $marvelid = !empty($_POST['marvelid']) ? $_POST['marvelid'] : ''; 
     $insert = "INSERT INTO reviews (`title`, `body`, `marvelid`, `rateIndex`) VALUES ('$title', '$body', '$marvelid', '$ratedIndex')";
     mysqli_query($con, $insert) or die('Error : ' . mysqli_error($con));
-    print "Added: " . "title: " . $title . "body: " . $body . "marvelid: " . $marvelid . "\n";
+    // print "Added: " . "title: " . $title . "body: " . $body . "marvelid: " . $marvelid . "\n";
     header("Location: http://localhost/ComicsFinder/web/index.php?c=" . $input . "&submit=Search");
 }
 
@@ -71,18 +71,18 @@ if(strlen($input) >= $min_length) {
             '<div class="image"><img height="300" width="300" src="' .  $results['thumbnail'] . '.' . $results['extension'] . '"/></div>';
             "<p class='col-md-8'>" . $results['description']. "</p>";
 
-            $rowCount++;
-            if($rowCount % $numberOfColumns == 0) echo '</div><div class="row">';
+            // $rowCount++;
+            // if($rowCount % $numberOfColumns == 0) echo '</div><div class="row">';
             
-            $sql = $con->query("SELECT id FROM reviews");
-            $numR = $sql->num_rows;
+            // $sql = $con->query("SELECT id FROM reviews");
+            // $numR = $sql->num_rows;
             
-            $sql = $con->query("SELECT SUM(rateIndex) AS total FROM reviews");
-            $rData = $sql->fetch_array();
-            $total = $rData['total'];
-            if ($total != 0) {
-                $avg = $total / $numR;
-            }
+            // $sql = $con->query("SELECT SUM(rateIndex) AS total FROM reviews");
+            // $rData = $sql->fetch_array();
+            // $total = $rData['total'];
+            // if ($total != 0) {
+            //     $avg = $total / $numR;
+            // }
             print
                     '<form method="POST">' .
                         '<div class="stars"><input type="hidden" id="Clicked" value=""></input>' .
