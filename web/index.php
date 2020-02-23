@@ -1,6 +1,8 @@
 <?php
 
-// TODO: Rate each comic individually. Not it's just get's the first one and applies it in all. 
+/**
+ * TODO: Rate each comic individually. Not it's just get's the first one and applies it in all.
+*/
 
 require_once(__DIR__ . '/../src/includes/db_conn.php');
 require_once(__DIR__ . '/../config.php');
@@ -9,6 +11,10 @@ require_once(__DIR__ . '/../CSS/style.php');
 $min_length = 3;
 $input = !empty($_GET['c']) ? $_GET['c'] : '';
 $input = mysqli_real_escape_string($con, $input);
+
+/**
+ * if submit comment or star rating then post in database
+*/
 
 if(isset($_POST['submit'])) {
     print "post" . print_r($_POST) . "\n";
@@ -27,63 +33,76 @@ if(isset($_POST['submit'])) {
 }
 
 ?>
-<!DOCTYPE html>
-<html>
-<head>
-    <title></title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
-	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
-    <link href="https://fonts.googleapis.com/css?family=Alata&display=swap" rel="stylesheet"> 
-</head>
-<body>
-<div class="container">
-    <form method="GET">
-    
-        <div class="d-flex justify-content-center h-100">
-            <div class="title"><h2>Browse your favorite superhero stories</h2></div>
-            <div class="subtitle"><h5>Hulk, X-Men, Wolverine, Wasp (Ultimate), Spider-Man</h5></div>
-            <div class="searchbar">
-                <input class="search_input" type="text" name="c" placeholder="3-D Man" />
-                <input class="button" type="submit" name= "submit" value="Search"/>
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title></title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
+        <link href="https://fonts.googleapis.com/css?family=Alata&display=swap" rel="stylesheet">
+    </head>
+    <body>
+    <div class="container">
+        <form method="GET">
+
+            <div class="d-flex justify-content-center h-100">
+                <div class="title"><h2>Browse your favorite superhero stories</h2></div>
+                <div class="subtitle"><h5>Hulk, X-Men, Wolverine, Wasp (Ultimate), Spider-Man</h5></div>
+                <div class="searchbar">
+                    <input class="search_input" type="text" name="c" placeholder="3-D Man" />
+                    <input class="button" type="submit" name= "submit" value="Search"/>
+                </div>
             </div>
-        </div>
-    </form>
-</div>
-<?php
+        </form>
+    </div>
+    <?php
 
-if(strlen($input) >= $min_length) {
-    $input = htmlspecialchars($input);
-    $raw_results = mysqli_query($con, "SELECT `title`, `issue`, `description`, `thumbnail`, `characters`, `thumbnail`, `extension`, `marvelid` 
-                                            FROM comics Where (`characters` LIKE '%".$input."%')");
+    /**
+     * Print results on the screen.
+     */
 
-    $numberOfColumns = 3;
-    $rowCount = 0;
-    $bootstrapColWidth = 12 / $numberOfColumns;
-    if (mysqli_num_rows($raw_results) > 0){
-        echo '<div class="row">';
-        while($results = mysqli_fetch_array($raw_results)) {
-            print 
-            '<div class="col-md-' .$bootstrapColWidth.'" >' .
-            '<div class="subtitle"><p><h3>' .$results['title']. '</h3></p></div>' .
-            '<div class="image"><img height="300" width="300" src="' .  $results['thumbnail'] . '.' . $results['extension'] . '"/></div>';
-            "<p class='col-md-8'>" . $results['description']. "</p>";
+    if(strlen($input) >= $min_length) {
+        $input = htmlspecialchars($input);
+        $raw_results = mysqli_query($con, "SELECT `title`, `issue`, `description`, `thumbnail`, `characters`, `thumbnail`, `extension`, `marvelid` 
+                                                FROM comics Where (`characters` LIKE '%".$input."%')");
 
-            // $rowCount++;
-            // if($rowCount % $numberOfColumns == 0) echo '</div><div class="row">';
-            
-            // $sql = $con->query("SELECT id FROM reviews");
-            // $numR = $sql->num_rows;
-            
-            // $sql = $con->query("SELECT SUM(rateIndex) AS total FROM reviews");
-            // $rData = $sql->fetch_array();
-            // $total = $rData['total'];
-            // if ($total != 0) {
-            //     $avg = $total / $numR;
-            // }
-            print
+        $numberOfColumns = 3;
+        $rowCount = 0;
+        $bootstrapColWidth = 12 / $numberOfColumns;
+        if (mysqli_num_rows($raw_results) > 0){
+            echo '<div class="row">';
+            while($results = mysqli_fetch_array($raw_results)) {
+                print
+                '<div class="col-md-' .$bootstrapColWidth.'" >' .
+                '<div class="subtitle"><p><h3>' .$results['title']. '</h3></p></div>' .
+                '<div class="image"><img height="300" width="300" src="' .  $results['thumbnail'] . '.' . $results['extension'] . '"/></div>';
+                "<p class='col-md-8'>" . $results['description']. "</p>";
+
+                /**
+                 * Get the average of star rating
+                 */
+
+                 $rowCount++;
+                 if($rowCount % $numberOfColumns == 0) echo '</div><div class="row">';
+
+                 $sql = $con->query("SELECT id FROM reviews");
+                 $numR = $sql->num_rows;
+
+                 $sql = $con->query("SELECT SUM(rateIndex) AS total FROM reviews");
+                 $rData = $sql->fetch_array();
+                 $total = $rData['total'];
+                 if ($total != 0) {
+                     $avg = $total / $numR;
+                 }
+
+                /**
+                 * Star rating system
+                 */
+
+                 print
                     '<form method="POST">' .
                         '<div class="stars"><input type="hidden" id="Clicked" value=""></input>' .
                         '<i class="fa fa-star fa-2x" data-index="0" id="0"></i>' .
@@ -95,7 +114,7 @@ if(strlen($input) >= $min_length) {
                             <input class="form-control" type="text" name="title" size="26" placeholder="Title" style="width: 290px"/>' . "\n<br />" .
                             '<textarea class="form-control" type="text" name="body" placeholder="Comment" style="width: 290px"></textarea>' . "\n<br />
                         </div>" .
-                    
+
                         '<input class="btn btn-danger" type="submit" name="submit" value="Post your review"/>' .
                         '<input type="hidden" name="marvelid" value="' . $results['marvelid'] . '"/>' .
                         '<input class="btn btn-light "type="reset" value="Clear">';
@@ -103,23 +122,24 @@ if(strlen($input) >= $min_length) {
                             echo "Score:" . round($avg);
                         }
                     print '</form>';
-            
+
                     print '<a href="reviews.php?marvelid=' . $results['marvelid'] . '">Go to the reviews</a>';
 
                     echo '</div>';
-                    }  
+                    }
                     echo '</div>';
+        } else {
+            print "No results";
+        }
     } else {
-        print "No results";
-    }   
-} else {
-    if (!empty($input)) {
-        print "Minimum length is " . $min_length;
+        if (!empty($input)) {
+            print "Minimum length is " . $min_length;
+        }
     }
-}
 ?>
 </body>
 </html>
+
 <script
   src="http://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
 <script>
@@ -147,21 +167,20 @@ if(strlen($input) >= $min_length) {
                 setStars(ratedIndex);  // Changing the star rating. 
         });
     });
-        function saveToDB() {
-            $.ajax({
-                url: "index.php",
-                method: "POST",
-                dataType: 'json',
-                data: {
-                    save: 1,
-                    ratedIndex: ratedIndex
-                }, success: function (r) {
-                    content.html(response);
-                }
 
-            });
-        }
-  
+    function saveToDB() {
+        $.ajax({
+            url: "index.php",
+            method: "POST",
+            dataType: 'json',
+            data: {
+                save: 1,
+                ratedIndex: ratedIndex
+            }, success: function (r) {
+                content.html(response);
+            }
+        });
+    }
 
     function setStars(max) {
         for (var i=0; i <= ratedIndex; i++)
@@ -171,6 +190,5 @@ if(strlen($input) >= $min_length) {
 	function resetStarColors() {
 		$('.fa-star').css('color', '#CCCC00'); // return the colors back black when is refresh
 	}
-
 </script>
 
