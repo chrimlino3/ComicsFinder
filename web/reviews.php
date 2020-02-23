@@ -7,6 +7,8 @@ require_once(__DIR__ . '/../CSS/style.php');
 $results = !empty($_GET['marvelid']) ? $_GET['marvelid'] : ''; 
 
 $sql1 = mysqli_query($con, "SELECT * FROM reviews WHERE marvelid = '$results'");  
+$input = !empty($_GET['c']) ? $_GET['c'] : '';
+$input = mysqli_real_escape_string($con, $input)
 
 
 ?>
@@ -23,7 +25,7 @@ $sql1 = mysqli_query($con, "SELECT * FROM reviews WHERE marvelid = '$results'");
 </head>
 <body>
 <?php
- print '<a href="index.php">Go back</a>';
+ print "<a href=index.php?c=" . $input . "&submit=Search>Go back</a>";
  print
  "<h3>". "Reviews" ."</h3>".
  '<div class="card">';
