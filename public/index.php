@@ -29,7 +29,7 @@ if(isset($_POST['submit'])) {
     $insert = "INSERT INTO reviews (`title`, `body`, `marvelid`, `rateIndex`) VALUES ('$title', '$body', '$marvelid', '$ratedIndex')";
     mysqli_query($con, $insert) or die('Error : ' . mysqli_error($con));
     // print "Added: " . "title: " . $title . "body: " . $body . "marvelid: " . $marvelid . "\n";
-    header("Location: http://localhost/ComicsFinder/web/index.php?c=" . $input . "&submit=Search");
+    header("Location: http://localhost/ComicsFinder/public/index.php?c=" . $input . "&submit=Search");
 }
 
 ?>
